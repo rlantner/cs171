@@ -11299,3 +11299,19 @@ section {
   padding-top: 9rem;
   padding-bottom: 9rem;
 }
+
+#crime-map {
+  width: 100%;
+  height: 600px;
+  margin: 20px
+}
+
+#crime-map-zoom {
+  width: 100%;
+  height: 600px;
+  margin: 20px
+}
+
+p {
+  margin: 20px
+}

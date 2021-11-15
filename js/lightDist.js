@@ -29,21 +29,35 @@ class LightDist {
         console.log("Light Data")
         console.log(vis.lightData)
 
-        //create empty array for new array of objects
+        //create empty arrays
         let crimeLightPairs = []
+        let lightDistances = []
 
-        //set light search area for each crime
-        /*this.crimeData.forEach(function (crime) {
-
-        })*/
-
+       /* //calculate closest light
+        this.crimeData.forEach(function (crime) {
+            for (var i = 0; i < vis.lightData.length; i++){ //loop through each light
+                let distToLight = distance(crime.LAT, crime.LON, vis.lightData[i].Lat, vis.lightData[i].Lon) //save each distance
+                lightDistances.push(distToLight)
+            }
+            let closestLight = d3.min(lightDistances)
+            crimeLightPairs.push({crime: crime.ID, light: closestLight})
+        })
+        console.log(crimeLightPairs)*/
 
     }
-
+/*
+*PROCESS NOTES FOR THIS SECTION
+* The above code (lines 36-45) that's intended to calculate the closest light for each crime breaks upon loading - it is
+* too inefficient. Instead of doing this dynamically, moving forward I am going to calculate this separately and save
+* the crime IDs, their the closest light ID, and the distance between the crime and it's closest light as a data file
+* we can pull in as a third data file. This will allow us to construct the needed visualizations for part 4 without
+* breaking the webpage.
+* */
 
 }
 
 //function to determine distance between two points
+// based on: https://www.geodatasource.com/developers/javascript
 function distance(lat1, lon1, lat2, lon2) {
     var radlat1 = Math.PI * lat1/180
     var radlat2 = Math.PI * lat2/180

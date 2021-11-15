@@ -58,7 +58,69 @@ class StackedBarVis {
         let vis = this;
         console.log(vis.data)
         vis.filteredData = [];
-       let crimeByCODE = d3.group(vis.data, d=>d['OFFENSE_CODE'])
+
+        let crimeByCat = d3.group(vis.data, d=>d['Crime Category'])
+        let crimeCatObj = Array.from(crimeByCat,([key,value]) => ({key, value}))
+        //console.log(crimeCatObj)
+
+        let assaults = [404, 803, 402, 403, 413, 423, 432, 801, 802, 1620, 400, 800, 2647]
+        let thefts = [511, 522, 527, 520, 521, 522, 2010, 611, 612, 301, 215, 338, 339, 371, 381]
+        let harassments = [2611, 2407, 2670, 2604, 2629, 2670, 3170, 804, 2006, 2007, 2671]
+        let kids = [2003, 2004, 2005, 2664, 2622]
+        let fraud =   [1102, 1106, 1107, 1109]
+        let injuryHomicide = [3170, 3016, 112, 3803, 3810, 3820, 3830, 123, 121, 111, 2628]
+
+        crimeCatObj.forEach(x => {
+            let offense_codes = x.value.map(element => element['OFFENSE_CODE'])
+            let cleanCodes = offense_codes.filter((item, index) => offense_codes.indexOf(item) === index); //inspo https://www.samanthaming.com/tidbits/43-3-ways-to-remove-array-duplicates/
+           console.log(cleanCodes)
+
+            let summaryObj = {
+                crime1_code: cleanCodes[0],
+                crime1_count:0,
+                crime2_code:'',
+                crime2_count:0,
+                crime3_code:'',
+                crime3_count:0,
+                crime4_code:'',
+                crime4_count:0,
+                crime5_code:'',
+                crime5_count:0,
+                crime6_code:'',
+                crime6_count:0,
+                crime7_code:'',
+                crime7_count:0,
+                crime8_code:'',
+                crime8_count:0,
+                crime9_code:'',
+                crime9_count:0,
+                crime10_code:'',
+                crime10_count:0,
+                crime11_code:'',
+                crime11_count:0,
+                crime12_code:'',
+                crime12_count:0,
+                crime13_code:'',
+                crime13_count:0,
+                crime14_code:'',
+                crime14_count:0,
+                crime15_code:'',
+                crime15_count:0,
+            }
+            vis.filteredData.push(summaryObj)
+
+
+           //x.value.forEach(
+
+
+           // )
+
+
+
+
+        }
+        )
+       /*let crimeByCODE = d3.group(vis.data, d=>d['OFFENSE_CODE'])
         let crimesByCode = Array.from(crimeByCODE,([key,value]) => ({key, value}))
         //console.log(crimesByCode)
 
@@ -121,6 +183,7 @@ class StackedBarVis {
 
     vis.updateVis();
     }
+
     updateVis(){
 
         let vis = this;

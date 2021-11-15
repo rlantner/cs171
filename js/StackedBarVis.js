@@ -23,7 +23,7 @@ class StackedBarVis {
         //scales and axes
         vis.x = d3.scaleBand()
             .rangeRound([0, vis.width])
-            .paddingInner(0.2)
+            .paddingInner(0.4)
 
         vis.y = d3.scaleLinear()
             .domain([0, 7000])
@@ -43,69 +43,137 @@ class StackedBarVis {
             .attr("class", "y-axis axis");
 
 // Axis title
-        vis.svg.append("text")
+       /* vis.svg.append("text")
             .attr("x", -50)
             .attr("y", -8)
-            .text("Crime Group");
+            .text("Crime Group");*/
 
         vis.stack = d3.stack()
-            .keys(["assaults", 'kids', 'thefts', 'harassments', 'frauds', 'injuriesHomicides' ])
+            .keys(["crime1_count", 'crime2_count', 'crime3_count', 'crime4_count', 'crime5_count', 'crime6_count',
+            'crime7_count', 'crime8_count', 'crime9_count', 'crime10_count', 'crime11_count', 'crime12_count',
+               'crime13_count', 'crime14_count'])
+
+        //color scale
+        vis.color = d3.scaleOrdinal()
+            .domain(["assault", 'kids', 'theft', 'harassment', 'fraud', 'injury/homicide'])
+            .range(['#0fbecc', '#8b3c3e', '#1c3256', '#26d9bf', '#5e3d1e', '#c9f73c'])
 
 // (Filter, aggregate, modify data)
         vis.wrangleData();
     }
     wrangleData(){
         let vis = this;
-        console.log(vis.data)
+        //console.log(vis.data)
         vis.filteredData = [];
 
         let crimeByCat = d3.group(vis.data, d=>d['Crime Category'])
         let crimeCatObj = Array.from(crimeByCat,([key,value]) => ({key, value}))
         //console.log(crimeCatObj)
 
-        let assaults = [404, 803, 402, 403, 413, 423, 432, 801, 802, 1620, 400, 800, 2647]
-        let thefts = [511, 522, 527, 520, 521, 522, 2010, 611, 612, 301, 215, 338, 339, 371, 381]
-        let harassments = [2611, 2407, 2670, 2604, 2629, 2670, 3170, 804, 2006, 2007, 2671]
-        let kids = [2003, 2004, 2005, 2664, 2622]
-        let fraud =   [1102, 1106, 1107, 1109]
-        let injuryHomicide = [3170, 3016, 112, 3803, 3810, 3820, 3830, 123, 121, 111, 2628]
 
         crimeCatObj.forEach(x => {
             let offense_codes = x.value.map(element => element['OFFENSE_CODE'])
             let cleanCodes = offense_codes.filter((item, index) => offense_codes.indexOf(item) === index); //inspo https://www.samanthaming.com/tidbits/43-3-ways-to-remove-array-duplicates/
-           console.log(cleanCodes)
+            //console.log(cleanCodes.length)
 
+            if (x.key === 'assault') {
+                cleanCodes.push('0')
+            }
+            if(x.key === 'fraud') {
+                cleanCodes.push('0', '0', '0', '0', '0', '0', '0', '0', '0', '0')
+            }
+
+            if(x.key === 'kids') {
+                cleanCodes.push('0', '0', '0', '0', '0', '0', '0', '0', '0')
+            }
+            if(x.key === 'injury/homicide') {
+                cleanCodes.push('0', '0', '0', '0')
+            }
+            if(x.key === 'harassment') {
+                cleanCodes.push('0', '0', '0', '0')
+            }
+
+            let crime1_count = 0;
+            let crime2_count = 0;
+            let crime3_count =0;
+            let crime4_count = 0;
+            let crime5_count =0;
+            let crime6_count =0;
+            let crime7_count = 0;
+            let crime8_count = 0;
+            let crime9_count =0;
+            let crime10_count = 0;
+            let crime11_count = 0;
+            let crime12_count =0;
+            let crime13_count =0;
+            let crime14_count =0;
+
+            x.value.forEach(crime => {
+                if (crime['OFFENSE_CODE'] === cleanCodes[0]){
+                    crime1_count +=1
+                }
+                if (crime['OFFENSE_CODE'] === cleanCodes[1]){
+                    crime2_count +=1
+                }
+                if (crime['OFFENSE_CODE'] === cleanCodes[2]){
+                    crime3_count +=1
+                }
+                if (crime['OFFENSE_CODE'] === cleanCodes[3]){
+                    crime4_count +=1
+                }
+                if (crime['OFFENSE_CODE'] === cleanCodes[4]){
+                    crime5_count +=1
+                } if (crime['OFFENSE_CODE'] === cleanCodes[5]){
+                    crime6_count +=1
+                } if (crime['OFFENSE_CODE'] === cleanCodes[6]){
+                    crime7_count +=1
+                } if (crime['OFFENSE_CODE'] === cleanCodes[7]){
+                    crime8_count +=1
+                } if (crime['OFFENSE_CODE'] === cleanCodes[8]){
+                    crime9_count +=1
+                } if (crime['OFFENSE_CODE'] === cleanCodes[9]){
+                    crime10_count +=1
+                } if (crime['OFFENSE_CODE'] === cleanCodes[10]){
+                    crime11_count +=1
+                } if (crime['OFFENSE_CODE'] === cleanCodes[11]){
+                    crime12_count +=1
+                } if (crime['OFFENSE_CODE'] === cleanCodes[12]){
+                    crime13_count +=1
+                } if (crime['OFFENSE_CODE'] === cleanCodes[13]){
+                    crime14_count +=1
+                }
+
+            })
             let summaryObj = {
+                group: x.key,
                 crime1_code: cleanCodes[0],
-                crime1_count:0,
-                crime2_code:'',
-                crime2_count:0,
-                crime3_code:'',
-                crime3_count:0,
-                crime4_code:'',
-                crime4_count:0,
-                crime5_code:'',
-                crime5_count:0,
-                crime6_code:'',
-                crime6_count:0,
-                crime7_code:'',
-                crime7_count:0,
-                crime8_code:'',
-                crime8_count:0,
-                crime9_code:'',
-                crime9_count:0,
-                crime10_code:'',
-                crime10_count:0,
-                crime11_code:'',
-                crime11_count:0,
-                crime12_code:'',
-                crime12_count:0,
-                crime13_code:'',
-                crime13_count:0,
-                crime14_code:'',
-                crime14_count:0,
-                crime15_code:'',
-                crime15_count:0,
+                crime1_count:crime1_count,
+                crime2_code:cleanCodes[1],
+                crime2_count:crime2_count,
+                crime3_code:cleanCodes[2],
+                crime3_count:crime3_count,
+                crime4_code:cleanCodes[3],
+                crime4_count:crime4_count,
+                crime5_code:cleanCodes[4],
+                crime5_count:crime5_count,
+                crime6_code:cleanCodes[5],
+                crime6_count:crime6_count,
+                crime7_code:cleanCodes[6],
+                crime7_count:crime7_count,
+                crime8_code:cleanCodes[7],
+                crime8_count:crime8_count,
+                crime9_code:cleanCodes[8],
+                crime9_count:crime9_count,
+                crime10_code:cleanCodes[9],
+                crime10_count:crime10_count,
+                crime11_code:cleanCodes[10],
+                crime11_count:crime11_count,
+                crime12_code:cleanCodes[11],
+                crime12_count:crime12_count,
+                crime13_code:cleanCodes[12],
+                crime13_count:crime13_count,
+                crime14_code:cleanCodes[13],
+                crime14_count:crime14_count,
             }
             vis.filteredData.push(summaryObj)
 
@@ -189,8 +257,8 @@ class StackedBarVis {
         let vis = this;
 
         vis.stackedData = vis.stack(vis.filteredData)
-        console.log(vis.filteredData)
-        console.log(vis.stackedData)
+       //console.log(vis.filteredData)
+        //console.log(vis.stackedData)
 
         vis.x.domain(["assaults", 'kids', 'thefts', 'harassments', 'frauds', 'injuriesHomicides' ])
 
@@ -204,11 +272,11 @@ class StackedBarVis {
            .data(d=>d)
            .enter()
            .append('rect')
-           .attr('fill', 'black')
            .attr('x', (d,index) => index *50)
           .attr('y', d => vis.y(d[1]))
            .attr('width', vis.x.bandwidth())
-           .attr('height', d=>vis.y(d[0])-vis.y(d[1]))
+           .attr('height', d=> vis.y(d[0]) - vis.y(d[1]))
+            .attr('fill', d => vis.color(d.data.group))
 
     }
 }

@@ -1,7 +1,5 @@
 /* main JS file */
 
-console.log("Hello world!");
-
 //load the data with promises
 
 let promises = [
@@ -24,5 +22,6 @@ Promise.all(promises)
 
 
 function createVis(data) {
-    new LightDist("light-distance", data[0], data[1])
+    new LightDist("light-distance", data[0], data[1]);
+    new HourMonth("crime-hour-month", data[0]);
 }

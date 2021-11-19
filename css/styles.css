@@ -1,4 +1,20 @@
 @charset "UTF-8";
+
+/* our custom D3 styles */
+.xLabel {
+  text-anchor: middle;
+  font-size: 10pt;
+  fill: gray;
+}
+
+.yLabel {
+  text-anchor: end;
+  font-size: 10pt;
+  fill: gray;
+}
+
+
+/* Bootstrap template styles */
 /*!
 * Start Bootstrap - Scrolling Nav v5.0.4 (https://startbootstrap.com/template/scrolling-nav)
 * Copyright 2013-2021 Start Bootstrap

@@ -2,6 +2,7 @@
 let crimeMap;
 let crimeMapZoom;
 
+let parseTime = d3.timeParse('%Y')
 let promises = [
     d3.csv("data/boston-crime.csv", data => {
         data.ID = +data.ID;
@@ -19,7 +20,10 @@ let promises = [
         data.Long = +data.Long;
         return data
     }),
-    d3.csv("data/crime_data_with_categories.csv"),
+    d3.csv("data/crime_data_with_categories.csv", d => {
+        d.YEAR = parseTime(d.YEAR)
+        return d
+    }),
     d3.csv("data/sun-position.csv", data => {
         data.hour = +data.hour;
         data.month_number = +data.month_number;
@@ -46,4 +50,5 @@ function initMainPage(dataArray) {
     new LightDist("light-distance", dataArray[0], dataArray[1]);
     new HourMonth("crime-hour-month", dataArray[0], dataArray[3]);
     new StackedBarVis("stackedBar", dataArray[2]);
+    new AreaChartVis('AreaChart', dataArray[2]);
 }

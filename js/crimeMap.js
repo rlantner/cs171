@@ -58,11 +58,12 @@ class CrimeMap {
             }
         )
 
-        // No data wrangling/filtering needed
-        vis.filteredCrime = vis.peopleCrime.filter(d => d["Crime Category"] === "harassment" && (d.YEAR === 2016 || d.YEAR === 2017 || d.YEAR === 2018))
+        vis.filteredCrime = vis.peopleCrime.filter(d => d["Crime Category"] !== "fraud"
+                && (d.YEAR === 2016 || d.YEAR === 2017 || d.YEAR === 2018)
+                && (d.HOUR < 6 || d.HOUR > 18))
 
         if (vis.zoomBool === "True") {
-            vis.filteredLight = vis.lightData.filter(d => d.Lat < 42.37 && d.Lat > 42.35 && d.Long < -71.05 && d.Long > -71.08)
+            vis.filteredLight = vis.lightData.filter(d => d.Lat < 42.37 && d.Lat > 42.35 && d.Long < -71.05 && d.Long > -71.07)
         }
 
         console.log(vis.filteredCrime)

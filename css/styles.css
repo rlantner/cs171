@@ -11309,6 +11309,8 @@ html {
 header {
   padding-top: 9.5rem;
   padding-bottom: 6rem;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 section {

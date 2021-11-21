@@ -83,20 +83,17 @@ class CrimeMap {
 
         let crimeMarker = new LeafIcon({ iconUrl:  'img/crime_icon.png' });
         let lightMarker = new LeafIcon({ iconUrl:  'img/light_icon.png' });
-
-        if (vis.zoomBool === "True") {
-            vis.filteredLight.forEach((d, i) => {
-                console.log("light light baby")
-                L.marker([d.Lat, d.Long], { icon: lightMarker })
-                    .addTo(vis.map)
-            })
+        
+        if (lights === 1) {
+                if (vis.zoomBool === "True") {
+                    vis.filteredLight.forEach((d, i) => {
+                        console.log("light light baby")
+                        lights = L.marker([d.Lat, d.Long], { icon: lightMarker })
+                            .addTo(vis.map)
+                    })
+                }
         }
 
-        // vis.filteredLight.forEach((d, i) => {
-        // 	console.log("light light baby")
-        // 	L.marker([d.Lat, d.Long], { icon: lightMarker })
-        // 		.addTo(vis.map)
-        // })
 
         vis.filteredCrime.forEach((d, i) => {
             let popupContent =  "<strong>" + d.OFFENSE_DESCRIPTION + "</strong><br/>";

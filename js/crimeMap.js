@@ -58,8 +58,8 @@ class CrimeMap {
             }
         )
 
-        vis.filteredCrime = vis.peopleCrime.filter(d => d["Crime Category"] !== "fraud"
-                && (d.YEAR === 2016 || d.YEAR === 2017 || d.YEAR === 2018)
+        vis.filteredCrime = vis.peopleCrime.filter(d => (d["Crime Category"] === "assault" || d["Crime Category"] === "injury/homicide")
+                && (d.YEAR === 2018)
                 && (d.HOUR < 6 || d.HOUR > 18))
 
         if (vis.zoomBool === "True") {

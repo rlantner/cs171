@@ -32,11 +32,9 @@
             </div>
         </nav>
         <!-- Header-->
-        <header class="bg-primary bg-gradient text-white">
+        <header class="text-white" style="background-image: url('img/Banner.png');">
             <div class="container px-4 text-center">
-                <h1 class="fw-bolder">Boston in the Shadows</h1>
-                <p class="lead">Illuminating the impact of streetlights on crime across the city</p>
-                <a class="btn btn-lg btn-light" href="#part1">Explore the Data</a>
+                <a class="btn btn-lg btn-light" href="#part1" id="button">Explore the Data</a>
             </div>
         </header>
         <!-- Part 1 section-->
@@ -70,7 +68,6 @@
                 <div class="row gx-4 justify-content-center">
                     <div class="col-lg-8">
                         <h2>Part 3: Mapping streetlights and crime</h2>
-                        <p class="lead">Show crime map view filtered to crimes against people, with streetlight locations layered on top. Toggle between day and night. Ideally, when user clicks a button it turns the background color of the webpage from light to dark and streetlight map dots from hidden to yellow.</p>
                         <div class="row">
                             <div id="crime-map"></div>
                         </div>
@@ -79,12 +76,13 @@
                                 <div id="crime-map-zoom"></div>
                             </div>
                             <div class="col-6">
-                                <p>
-                                    For the sake of simplicity for this version, the crime indicators currently only arbitrarily show crimes that are
-                                    considered 'harassment'. The smaller map renders the streetlights in a certain area of boston as
-                                    well as the 'harassment' crimes in the area. In this column, our final version will include filters for turning
-                                    on and off the streetlights as well as drop-down menus for crimes - potentially it will also
-                                    filter the zoomed map to be different areas of Boston.
+                                <button class="btn btn-lg btn-dark" id="lights" value="OFF" onclick="toggle()">Turn on the lights!</button>
+                                <p class="lead">
+                                    The above map shows the instances of crimes against people in the Boston area between
+                                    the hours of 6pm and 6am. To the left, we have isolated a crime-dense area of Boston.
+                                    If you click the button above, you can view the street-light locations for this smaller area
+                                    which demonstrates that the most crimes against people committed at night, are in
+                                    street-light sparse areas.
                                 </p>
                             </div>
                         </div>

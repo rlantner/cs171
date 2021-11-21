@@ -2,6 +2,21 @@
 let crimeMap;
 let crimeMapZoom;
 
+let btn;
+let lights = 0;
+
+function toggle()
+{
+    lights = 1
+    btn = document.getElementById("lights").innerText
+    console.log(btn);
+    if(btn === "Turn on the lights!")
+    {
+        console.log("off -> on")
+        crimeMapZoom.wrangleData();
+    }
+}
+
 let promises = [
     d3.csv("data/boston-crime.csv", data => {
         data.ID = +data.ID;

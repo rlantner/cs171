@@ -3,9 +3,11 @@ let crimeMap;
 let crimeMapZoom;
 
 let btn;
+let lights = 0;
 
 function toggle()
 {
+    lights = 1
     btn = document.getElementById("lights").innerText
     console.log(btn);
     if(btn === "Turn on the lights!")

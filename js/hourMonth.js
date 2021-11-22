@@ -101,7 +101,8 @@ class HourMonth {
             .attr('id', 'bubbleTooltip');
 
 
-        vis.wrangleData();
+            vis.wrangleData();
+
     }
 
     wrangleData() {
@@ -111,9 +112,17 @@ class HourMonth {
         // filter by whatever you want to filter
         // vis.filteredData = vis.crimeData;
 
-        vis.filteredData = vis.crimeData.filter(function(d) {
-            return d.YEAR >= 2016 && d.YEAR <= 2018
-        });
+        console.log(vis.parentElement);
+
+        if (vis.parentElement === "crime-hour-month-1") {
+            vis.filteredData = vis.crimeData.filter(function(d) {
+                return d.YEAR >= 2016 && d.YEAR <= 2018 && (d["Crime Category"] === "assault" || d["Crime Category"] === "injury/homicide")
+            })
+        } else {
+            vis.filteredData = vis.crimeData.filter(function(d) {
+                return d.YEAR >= 2016 && d.YEAR <= 2018 && d.SHOOTING === 1
+            })
+        }
 
         console.log(vis.filteredData);
 
@@ -162,7 +171,7 @@ class HourMonth {
 
         // sunlight rectangles
         var sunlightRects = vis.svg.selectAll(".sunlightRect")
-            .data(vis.displayData);
+            .data(vis.sunPosition);
 
         sunlightRects.exit().remove();
 

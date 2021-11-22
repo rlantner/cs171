@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>CS171</title>
+        <title>Boston in the Shadows</title>
         <link href='https://fonts.googleapis.com/css?family=Roboto:100,400,300,400italic,700' rel='stylesheet'
               type='text/css'>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -19,7 +19,7 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
             <div class="container px-4">
-                <a class="navbar-brand" href="#page-top">CS171</a>
+                <a class="navbar-brand" href="#page-top">Boston in the Shadows</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
@@ -32,11 +32,9 @@
             </div>
         </nav>
         <!-- Header-->
-        <header class="bg-primary bg-gradient text-white">
+        <header class="text-white" style="background-image: url('img/Banner.png');">
             <div class="container px-4 text-center">
-                <h1 class="fw-bolder">Boston in the Shadows</h1>
-                <p class="lead">Illuminating the impact of streetlights on crime across the city</p>
-                <a class="btn btn-lg btn-light" href="#part1">Explore the Data</a>
+                <a class="btn btn-lg btn-light" href="#part1" id="button">Explore the Data</a>
             </div>
         </header>
         <!-- Part 1 section-->
@@ -57,9 +55,26 @@
             <div class="container px-4">
                 <div class="row gx-4 justify-content-center">
                     <div class="col-lg-8">
-                        <h2>Part 2: From day to night</h2>
-                        <p class="lead">Custom viz. Introduce trends in daylight hours and seasonality.</p>
-                        <div id="crime-hour-month"></div>
+                        <h2>Part 2: Trends in crime by day and night</h2>
+                        <p class="lead">
+                            Research in Houston by Rice University<a href="https://kinder.rice.edu/sites/default/files/documents/Kinder%20Streetlights%20and%20Crime%20report.pdf"><sup>1</sup></a> suggests that while crimes against property often coincide with well-lit areas like shopping malls and airports,
+                            number of crimes against people has an association with streetlight density: more light, less crime. (This is not necessarily a causal relationship, but correlated nonetheless.)
+                            <br><br>
+                            Does the phenomenon hold true in Boston?
+                            <br><br>
+                            The visualization below shows the number of crimes committed over a three-year period from 2016 to 2018.
+                            We filter to assaults, injuries, and homocides, under the assumption that violent, public crimes against people are more likely to show seasonal and temporal patterns than crimes like fraud.
+                            Circle size depicts crime count and color indicates night, dawn, day, and dusk, accounting for changing sunrise and sunset times in Boston over the year.
+                        </p>
+                        <div id="crime-hour-month-1"></div>
+                        <p class="lead">
+                            <br>
+                            While hourly trends show low levels of violent crime in the morning with a ramp through the day, they do not reveal an obvious association between crime counts and "streetlight hours" (dusk to dawn).
+                            However, the categorization of assaults, injuries, and homocides is subject to variability in officers' reporting and our own interpretation of the crime data descriptions.
+                            The data for shootings, on the other hand, is more cut-and-dry.
+                            When we filter explicitly to crimes where shootings occurred, we can see in the visualization below that counts are generally higher at night, specifically during summer months.
+                        </p>
+                        <div id="crime-hour-month-2"></div>
                         <!-- <img src="assets/img/sketch2.jpg" alt="placeholder sketch" width="500" height="600"> -->
                     </div>
                 </div>
@@ -71,7 +86,6 @@
                 <div class="row gx-4 justify-content-center">
                     <div class="col-lg-8">
                         <h2>Part 3: Mapping streetlights and crime</h2>
-                        <p class="lead">Show crime map view filtered to crimes against people, with streetlight locations layered on top. Toggle between day and night. Ideally, when user clicks a button it turns the background color of the webpage from light to dark and streetlight map dots from hidden to yellow.</p>
                         <div class="row">
                             <div id="crime-map"></div>
                         </div>
@@ -80,12 +94,13 @@
                                 <div id="crime-map-zoom"></div>
                             </div>
                             <div class="col-6">
-                                <p>
-                                    For the sake of simplicity for this version, the crime indicators currently only arbitrarily show crimes that are
-                                    considered 'harassment'. The smaller map renders the streetlights in a certain area of boston as
-                                    well as the 'harassment' crimes in the area. In this column, our final version will include filters for turning
-                                    on and off the streetlights as well as drop-down menus for crimes - potentially it will also
-                                    filter the zoomed map to be different areas of Boston.
+                                <button class="btn btn-lg btn-dark" id="lights" value="OFF" onclick="toggle()">Turn on the lights!</button>
+                                <p class="lead">
+                                    The above map shows the instances of violent crimes against people in the Boston area between
+                                    the hours of 6pm and 6am in the year 2018. To the left, we have isolated a crime-dense area of Boston.
+                                    If you click the button above, you can view the street-light locations for this smaller area
+                                    which demonstrates that the most crimes against people committed at night, are in
+                                    street-light sparse areas.
                                 </p>
                             </div>
                         </div>
@@ -107,7 +122,7 @@
         </section>
         <!-- Footer-->
         <footer class="py-5 bg-dark">
-            <div class="container px-4"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2021</p></div>
+            <div class="container px-4"><p class="m-0 text-center text-white">Copyright &copy; Boston in the Shadows 2021</p></div>
         </footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

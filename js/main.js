@@ -2,7 +2,21 @@
 let crimeMap;
 let crimeMapZoom;
 
-let parseTime = d3.timeParse('%Y')
+let btn;
+let lights = 0;
+
+function toggle()
+{
+    lights = 1
+    btn = document.getElementById("lights").innerText
+    console.log(btn);
+    if(btn === "Turn on the lights!")
+    {
+        console.log("off -> on")
+        crimeMapZoom.wrangleData();
+    }
+}
+
 let promises = [
     d3.csv("data/boston-crime.csv", data => {
         data.ID = +data.ID;
@@ -20,9 +34,15 @@ let promises = [
         data.Long = +data.Long;
         return data
     }),
-    d3.csv("data/crime_data_with_categories.csv", d => {
-        d.YEAR = parseTime(d.YEAR)
-        return d
+    d3.csv("data/crime_data_with_categories.csv", data => {
+        data.ID = +data.ID;
+        data.LAT = +data.LAT;
+        data.LONG = +data.LONG;
+        data.HOUR = +data.HOUR;
+        data.MONTH = +data.MONTH;
+        data.SHOOTING = +data.SHOOTING;
+        data.OFFENSE_CODE = +data.OFFENSE_CODE;
+        return data
     }),
     d3.csv("data/sun-position.csv", data => {
         data.hour = +data.hour;
@@ -48,7 +68,7 @@ function initMainPage(dataArray) {
     crimeMapZoom = new CrimeMap("crime-map-zoom", dataArray[0], dataArray[1], dataArray[2], [42.35988372, -71.06016189], "True", 15);
     
     new LightDist("light-distance", dataArray[0], dataArray[1]);
-    new HourMonth("crime-hour-month", dataArray[0], dataArray[3]);
+    new HourMonth("crime-hour-month-1", dataArray[2], dataArray[3]);
+    new HourMonth("crime-hour-month-2", dataArray[2], dataArray[3]);
     new StackedBarVis("stackedBar", dataArray[2]);
-    new AreaChartVis('AreaChart', dataArray[2]);
 }

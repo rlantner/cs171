@@ -11309,6 +11309,8 @@ html {
 header {
   padding-top: 9.5rem;
   padding-bottom: 6rem;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 section {
@@ -11324,10 +11326,19 @@ section {
 
 #crime-map-zoom {
   width: 100%;
-  height: 600px;
+  height: 500px;
   margin: 20px
 }
 
 p {
+  margin: 20px
+}
+
+#button {
+  font-family: Montserrat;
+  margin-top: 210px;
+}
+
+#lights {
   margin: 20px
 }

@@ -58,11 +58,12 @@ class CrimeMap {
             }
         )
 
-        // No data wrangling/filtering needed
-        vis.filteredCrime = vis.peopleCrime.filter(d => d["Crime Category"] === "harassment" && (d.YEAR === 2016 || d.YEAR === 2017 || d.YEAR === 2018))
+        vis.filteredCrime = vis.peopleCrime.filter(d => (d["Crime Category"] === "assault" || d["Crime Category"] === "injury/homicide")
+                && (d.YEAR === 2018)
+                && (d.HOUR < 6 || d.HOUR > 18))
 
         if (vis.zoomBool === "True") {
-            vis.filteredLight = vis.lightData.filter(d => d.Lat < 42.37 && d.Lat > 42.35 && d.Long < -71.05 && d.Long > -71.08)
+            vis.filteredLight = vis.lightData.filter(d => d.Lat < 42.37 && d.Lat > 42.35 && d.Long < -71.05 && d.Long > -71.07)
         }
 
         console.log(vis.filteredCrime)
@@ -83,20 +84,17 @@ class CrimeMap {
 
         let crimeMarker = new LeafIcon({ iconUrl:  'img/crime_icon.png' });
         let lightMarker = new LeafIcon({ iconUrl:  'img/light_icon.png' });
-
-        if (vis.zoomBool === "True") {
-            vis.filteredLight.forEach((d, i) => {
-                console.log("light light baby")
-                L.marker([d.Lat, d.Long], { icon: lightMarker })
-                    .addTo(vis.map)
-            })
+        
+        if (lights === 1) {
+                if (vis.zoomBool === "True") {
+                    vis.filteredLight.forEach((d, i) => {
+                        console.log("light light baby")
+                        lights = L.marker([d.Lat, d.Long], { icon: lightMarker })
+                            .addTo(vis.map)
+                    })
+                }
         }
 
-        // vis.filteredLight.forEach((d, i) => {
-        // 	console.log("light light baby")
-        // 	L.marker([d.Lat, d.Long], { icon: lightMarker })
-        // 		.addTo(vis.map)
-        // })
 
         vis.filteredCrime.forEach((d, i) => {
             let popupContent =  "<strong>" + d.OFFENSE_DESCRIPTION + "</strong><br/>";

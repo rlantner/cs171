@@ -18,11 +18,10 @@ class AreaChartVis{
     initVis() {
         let vis = this;
 
-        vis.margin = {top: 20, right: 10, bottom: 20, left: 40};
+        vis.margin = { top: 20, right: 0, bottom: 200, left: 140 };
 
-        // TODO: #9 - Change hardcoded width to reference the width of the parent element
-        vis.width = 400 - vis.margin.left - vis.margin.right;
-        vis.height = 250 - vis.margin.top - vis.margin.bottom;
+        vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right,
+        vis.height = 600 - vis.margin.top - vis.margin.bottom;
 
 
         // SVG drawing area
@@ -76,11 +75,13 @@ class AreaChartVis{
         // (1) Group data by date and count survey results for each day
         // (2) Sort data by day
         // * TO-DO *
+        vis.displayData = vis.data.filter(x=> (x.YEAR <= 2018) && (x.YEAR >2015));
 
-        let dataByDate = d3.group(vis.data)
-        let countDataByDate = d3.rollup(vis.data, leaves=>leaves.length, d=>d.YEAR)
+        //console.log(vis.displayData)
+        let dataByDate = d3.group(vis.displayData)
+        let countDataByDate = d3.rollup(vis.displayData, leaves=>leaves.length, d=>d.YEAR)
         vis.displayData=Array.from(countDataByDate, ([key,value]) => ({key, value}))
-        console.log(vis.displayData)
+       // console.log(vis.displayData)
 
         // Update the visualization
         vis.updateVis();
@@ -120,7 +121,8 @@ class AreaChartVis{
         // D3 uses each data point and passes it to the area function. The area function translates the data into positions on the path in the SVG.
         vis.timePath
             .datum(vis.displayData)
-            .attr("d", vis.area);
+            .attr("d", vis.area)
+            .attr("fill", "linen");
 
 
         // Update axes

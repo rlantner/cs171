@@ -2,7 +2,7 @@ class StackedBarVis {
     constructor(_parentElement, _data) {
         this.parentElement = _parentElement;
         this.data = _data;
-        this.filteredData = this.data;
+        this.filteredData = [];
         this.initVis();
     }
 
@@ -11,7 +11,7 @@ class StackedBarVis {
         vis.margin = { top: 20, right: 0, bottom: 200, left: 140 };
 
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right,
-            vis.height = 500 - vis.margin.top - vis.margin.bottom;
+            vis.height = 600 - vis.margin.top - vis.margin.bottom;
 
         // SVG drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -53,9 +53,9 @@ class StackedBarVis {
                'crime13_count', 'crime14_count'])
 
         //color scale
-        vis.color = d3.scaleOrdinal()
+       /* vis.color = d3.scaleOrdinal()
             .domain(["assault", 'kids', 'theft', 'harassment', 'fraud', 'injury/homicide'])
-            .range(['#0fbecc', '#8b3c3e', '#1c3256', '#26d9bf', '#5e3d1e', '#c9f73c'])
+            .range(['#0fbecc', '#8b3c3e', '#1c3256', '#26d9bf', '#5e3d1e', '#c9f73c'])*/
 
         vis.tooltip = d3.select("body").append('div')
             .attr('class', "tooltip")
@@ -66,10 +66,24 @@ class StackedBarVis {
     }
     wrangleData(){
         let vis = this;
-        //console.log(vis.data)
-        vis.filteredData = [];
+        vis.filteredData=[];
+        vis.selectedYear =  document.getElementById('yearSelector').value;
 
-        let crimeByCat = d3.group(vis.data, d=>d['Crime Category'])
+        if (vis.selectedYear !== "all") {
+            vis.selectedYear = +vis.selectedYear
+        }
+
+
+        //console.log(vis.data)
+        vis.desiredYearsfilteredData = vis.data.filter(x=> (x.YEAR <= 2018) && (x.YEAR >2015))
+
+        if (vis.selectedYear === 'all'){
+            vis.finalfilteredData = vis.desiredYearsfilteredData
+        } else{
+            vis.finalfilteredData = vis.desiredYearsfilteredData.filter(x => x.YEAR===vis.selectedYear)
+        }
+
+        let crimeByCat = d3.group(vis.finalfilteredData, d=>d['Crime Category'])
         let crimeCatObj = Array.from(crimeByCat,([key,value]) => ({key, value}))
         //console.log(crimeCatObj)
 
@@ -195,7 +209,7 @@ class StackedBarVis {
         )
 
 
-
+        console.log(vis.filteredData)
 
 
     vis.updateVis();
@@ -218,18 +232,24 @@ class StackedBarVis {
           .data(vis.stackedData)
           .enter()
           .append('g')
+          .attr('class', 'barGroups')
 
-        vis.groups.selectAll('rect')
-           .data(d=>d)
-           .enter()
+        vis.bars = vis.groups.selectAll('rect')
+           .data(d => d)
+
+           vis.bars.enter()
            .append('rect')
+            .merge(vis.bars)
+           .transition()
             .attr('class', 'bar')
            .attr('x', d=>vis.x(d.data.group))
           .attr('y', d => vis.y(d[1]))
            .attr('width', vis.x.bandwidth())
            .attr('height', d=> vis.y(d[0]) - vis.y(d[1]))
-            .attr('fill', d => vis.color(d.data.group))
+            .attr('fill', "linen")
+            .attr("stroke", "black")
 
+        vis.bars.exit().remove();
         vis.svg.select(".y-axis")
             .call(vis.yAxis)
 
@@ -238,9 +258,21 @@ class StackedBarVis {
 
         //tool tip actions
         d3.selectAll('.bar').on("mouseover", function (event, d) {
-            d3.select(this)
-                .attr('stroke-width', '2px')
-                .attr('stroke', 'black')
+            let keys = Object.keys(d.data)
+            keys.forEach(x=> {
+                if (d.data[x] === d[1] - d[0]) {
+                    vis.count = d.data[x]
+                    vis.crimeNum = x.split('_')[0]
+                    //console.log(d.data[vis.crimeNum+"_code"])
+                }})
+
+            vis.data.forEach(crime => {
+                if (crime.OFFENSE_CODE === d.data[vis.crimeNum+"_code"]) {
+                   vis.crimeLabel = crime.OFFENSE_DESCRIPTION
+                }
+            })
+            //console.log(d)
+           d3.select(this)
                 .attr('fill', 'black')
             vis.tooltip
                 .style("opacity", 1)
@@ -248,7 +280,9 @@ class StackedBarVis {
                 .style("top", event.pageY + "px")
                 .html(`
                     <div style="border: thin solid grey; border-radius: 5px; background: lightgrey; padding: 20px">
-                        <h3> ${d.data.group}<h3>
+                        <h3> Crime Name: ${vis.crimeLabel}</h3>
+                        <h4> Crime Code: ${d.data[vis.crimeNum+"_code"]}<h3>
+                        <h4> Crime Count: ${vis.count}
                     </div>`
         );
 
@@ -264,8 +298,7 @@ class StackedBarVis {
         })
             .on('mouseout', function (event, d) {
                 d3.select(this)
-                    .attr('stroke-width', '0px')
-                    .attr("fill", vis.color(d.data.group))
+                    .attr("fill", "linen")
 
                 vis.tooltip
                     .style("opacity", 0)

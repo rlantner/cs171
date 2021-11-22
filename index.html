@@ -44,7 +44,20 @@
                     <div class="col-lg-8">
                         <h2>Part 1: Crime report</h2>
                         <p class="lead">Basic “lay of the land” on Boston crime. Where does crime happen? What types of crimes are most prevalent? What are the trends over time? Maybe introduce some story points, and then position the visualizations together in a dashboard for the user to explore.</p>
-                        <div id="stackedBar"></div>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <select id='yearSelector' name="Year" class="custom-select align-self-center" style="width: 50%" onchange= 'updateAll()'>
+                                <option value ='all' selected> All Years</option>
+                                <option value="2018">Crimes in 2018</option>
+                                <option value ="2017">Crimes in 2017</option>
+                                <option value ='2016'>Crimes in 2016 </option>
+                            </select>
+                        </div>
+                        <div class="row" id="visRow">
+                            <div class ='col-6'id="stackedBar"></div>
+                            <div class="col-6" id="AreaChart"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -137,6 +150,7 @@
         <script src="js/hourMonth.js"></script>
         <script src="js/lightDist.js"></script>
         <script src="js/StackedBarVis.js"></script>
+        <script src="js/AreaChartVis.js"></script>
         <!-- Load data, create visualizations -->
         <script src="js/main.js"></script>
     </body>

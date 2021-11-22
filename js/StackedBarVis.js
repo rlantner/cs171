@@ -2,7 +2,7 @@ class StackedBarVis {
     constructor(_parentElement, _data) {
         this.parentElement = _parentElement;
         this.data = _data;
-        this.filteredData = this.data;
+        this.filteredData = [];
         this.initVis();
     }
 
@@ -11,7 +11,7 @@ class StackedBarVis {
         vis.margin = { top: 20, right: 0, bottom: 200, left: 140 };
 
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right,
-            vis.height = 500 - vis.margin.top - vis.margin.bottom;
+            vis.height = 600 - vis.margin.top - vis.margin.bottom;
 
         // SVG drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -23,10 +23,9 @@ class StackedBarVis {
         //scales and axes
         vis.x = d3.scaleBand()
             .rangeRound([0, vis.width])
-            .paddingInner(0.4)
+            .paddingInner(0.2)
 
         vis.y = d3.scaleLinear()
-            .domain([0, 7000])
             .range([vis.height, 0]);
 
         vis.xAxis = d3.axisBottom()
@@ -54,19 +53,37 @@ class StackedBarVis {
                'crime13_count', 'crime14_count'])
 
         //color scale
-        vis.color = d3.scaleOrdinal()
+       /* vis.color = d3.scaleOrdinal()
             .domain(["assault", 'kids', 'theft', 'harassment', 'fraud', 'injury/homicide'])
-            .range(['#0fbecc', '#8b3c3e', '#1c3256', '#26d9bf', '#5e3d1e', '#c9f73c'])
+            .range(['#0fbecc', '#8b3c3e', '#1c3256', '#26d9bf', '#5e3d1e', '#c9f73c'])*/
+
+        vis.tooltip = d3.select("body").append('div')
+            .attr('class', "tooltip")
+            .attr('id', 'barToolTip')
 
 // (Filter, aggregate, modify data)
         vis.wrangleData();
     }
     wrangleData(){
         let vis = this;
-        //console.log(vis.data)
-        vis.filteredData = [];
+        vis.filteredData=[];
+        vis.selectedYear =  document.getElementById('yearSelector').value;
 
-        let crimeByCat = d3.group(vis.data, d=>d['Crime Category'])
+        if (vis.selectedYear !== "all") {
+            vis.selectedYear = +vis.selectedYear
+        }
+
+
+        //console.log(vis.data)
+        vis.desiredYearsfilteredData = vis.data.filter(x=> (x.YEAR <= 2018) && (x.YEAR >2015))
+
+        if (vis.selectedYear === 'all'){
+            vis.finalfilteredData = vis.desiredYearsfilteredData
+        } else{
+            vis.finalfilteredData = vis.desiredYearsfilteredData.filter(x => x.YEAR===vis.selectedYear)
+        }
+
+        let crimeByCat = d3.group(vis.finalfilteredData, d=>d['Crime Category'])
         let crimeCatObj = Array.from(crimeByCat,([key,value]) => ({key, value}))
         //console.log(crimeCatObj)
 
@@ -108,6 +125,13 @@ class StackedBarVis {
             let crime13_count =0;
             let crime14_count =0;
 
+
+
+
+
+
+
+
             x.value.forEach(crime => {
                 if (crime['OFFENSE_CODE'] === cleanCodes[0]){
                     crime1_count +=1
@@ -144,6 +168,7 @@ class StackedBarVis {
                 }
 
             })
+
             let summaryObj = {
                 group: x.key,
                 crime1_code: cleanCodes[0],
@@ -174,79 +199,17 @@ class StackedBarVis {
                 crime13_count:crime13_count,
                 crime14_code:cleanCodes[13],
                 crime14_count:crime14_count,
+                total: crime1_count+crime2_count+crime3_count+crime4_count+crime5_count+crime6_count+crime7_count+crime8_count
+                +crime9_count+crime10_count+crime11_count+crime12_count+crime13_count+crime14_count
             }
             vis.filteredData.push(summaryObj)
 
 
-           //x.value.forEach(
-
-
-           // )
-
-
-
-
         }
         )
-       /*let crimeByCODE = d3.group(vis.data, d=>d['OFFENSE_CODE'])
-        let crimesByCode = Array.from(crimeByCODE,([key,value]) => ({key, value}))
-        //console.log(crimesByCode)
 
-        crimesByCode.forEach(x => {
-            console.log(x.value)
-            let assault= 0;
-            let theft=0;
-            let kids =0;
-            let fraud =0;
-            let harass=0;
-            let injHom = 0;
-            x.value.forEach(element => {
-                if (element['Crime Category'] === 'assault'){
-                    assault +=1
-                } if (element['Crime Category'] === 'kids') {
-                     kids += 1
-                }if (element['Crime Category'] === 'theft'){
-                    theft +=1
-                } if (element['Crime Category'] === 'harassment'){
-                    harass +=1
-                } if (element['Crime Category'] === 'injury/homicide'){
-                    injHom +=1
-                } if (element['Crime Category'] === 'fraud') {
-                    fraud += 1
-                }})
 
-            //method 1
-            vis.filteredData.push({
-                offense: x.key,
-                assaults: assault,
-                kids: kids,
-                thefts: theft,
-                harassments: harass,
-                injuriesHomicides: injHom,
-                frauds: fraud
-                })
-            })
-
-        //method 2
-        /*let placeHolder = {};
-        placeHolder['offense'] = x.key
-
-        if (assault !=0) {
-            placeHolder['assaults'] = assault
-        }if (kids !=0) {
-            placeHolder['kids'] = kids
-        } if (theft !=0) {
-            placeHolder['thefts'] = theft
-        } if (harass !=0) {
-            placeHolder['harassments'] = harass
-        }  if (injHom !=0) {
-            placeHolder['injuriesHomicides'] = injHom
-        } if (fraud !=0) {
-            placeHolder['frauds'] = fraud
-        }
-
-        vis.filteredData.push(placeHolder)
-    })*/
+        console.log(vis.filteredData)
 
 
     vis.updateVis();
@@ -258,25 +221,91 @@ class StackedBarVis {
 
         vis.stackedData = vis.stack(vis.filteredData)
        //console.log(vis.filteredData)
-        //console.log(vis.stackedData)
+        console.log(vis.stackedData)
 
-        vis.x.domain(["assaults", 'kids', 'thefts', 'harassments', 'frauds', 'injuriesHomicides' ])
+        vis.barNames = vis.filteredData.map(x => x.group)
+        vis.y.domain([0, d3.max(vis.filteredData.map(x=>x.total))])
+        vis.x.domain(vis.barNames)
 
       vis.groups = vis.svg.append('g')
           .selectAll('g')
           .data(vis.stackedData)
           .enter()
           .append('g')
+          .attr('class', 'barGroups')
 
-        vis.groups.selectAll('rect')
-           .data(d=>d)
-           .enter()
+        vis.bars = vis.groups.selectAll('rect')
+           .data(d => d)
+
+           vis.bars.enter()
            .append('rect')
-           .attr('x', (d,index) => index *50)
+            .merge(vis.bars)
+           .transition()
+            .attr('class', 'bar')
+           .attr('x', d=>vis.x(d.data.group))
           .attr('y', d => vis.y(d[1]))
            .attr('width', vis.x.bandwidth())
            .attr('height', d=> vis.y(d[0]) - vis.y(d[1]))
-            .attr('fill', d => vis.color(d.data.group))
+            .attr('fill', "linen")
+            .attr("stroke", "black")
+
+        vis.bars.exit().remove();
+        vis.svg.select(".y-axis")
+            .call(vis.yAxis)
+
+        vis.svg.select(".x-axis")
+            .call(vis.xAxis)
+
+        //tool tip actions
+        d3.selectAll('.bar').on("mouseover", function (event, d) {
+            let keys = Object.keys(d.data)
+            keys.forEach(x=> {
+                if (d.data[x] === d[1] - d[0]) {
+                    vis.count = d.data[x]
+                    vis.crimeNum = x.split('_')[0]
+                    //console.log(d.data[vis.crimeNum+"_code"])
+                }})
+
+            vis.data.forEach(crime => {
+                if (crime.OFFENSE_CODE === d.data[vis.crimeNum+"_code"]) {
+                   vis.crimeLabel = crime.OFFENSE_DESCRIPTION
+                }
+            })
+            //console.log(d)
+           d3.select(this)
+                .attr('fill', 'black')
+            vis.tooltip
+                .style("opacity", 1)
+                .style("left", event.pageX + 20 + "px")
+                .style("top", event.pageY + "px")
+                .html(`
+                    <div style="border: thin solid grey; border-radius: 5px; background: lightgrey; padding: 20px">
+                        <h3> Crime Name: ${vis.crimeLabel}</h3>
+                        <h4> Crime Code: ${d.data[vis.crimeNum+"_code"]}<h3>
+                        <h4> Crime Count: ${vis.count}
+                    </div>`
+        );
+
+                /*.html(`
+                    <div style="border: thin solid grey; border-radius: 5px; background: lightgrey; padding: 20px">
+                         <h3> ${d.}<h3>
+                        <h4> Population: ${d.population}</h4>
+                         <h4> Cases (absolute): ${d.absCases}</h4>
+                         <h4> Deaths (absolute): ${d.absDeaths}</h4>
+                         <h4> Cases (relative): ${(d.relCases).toFixed(2)+"%"}
+                         <h4> Deaths (relative): ${(d.relDeaths).toFixed(2) + "%"}
+                    </div>`);*/
+        })
+            .on('mouseout', function (event, d) {
+                d3.select(this)
+                    .attr("fill", "linen")
+
+                vis.tooltip
+                    .style("opacity", 0)
+                    .style("left", 0)
+                    .style("top", 0)
+                    .html(``);
+            })
 
     }
 }

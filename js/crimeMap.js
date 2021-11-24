@@ -28,10 +28,15 @@ class CrimeMap {
         // 	attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         // }).addTo(vis.map);
 
-        L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
-            maxZoom: 20,
-            attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+            maxZoom: 16
         }).addTo(vis.map);
+
+        // L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
+        //     maxZoom: 20,
+        //     attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+        // }).addTo(vis.map);
 
 
         vis.wrangleData();
@@ -58,12 +63,11 @@ class CrimeMap {
             }
         )
 
-        vis.filteredCrime = vis.peopleCrime.filter(d => (d["Crime Category"] === "assault" || d["Crime Category"] === "injury/homicide")
+        vis.filteredCrime = vis.peopleCrime.filter(d => (d["Crime Category"] === "injury/homicide")
                 && (d.YEAR === 2018)
                 && (d.HOUR < 6 || d.HOUR > 18))
-
         if (vis.zoomBool === "True") {
-            vis.filteredLight = vis.lightData.filter(d => d.Lat < 42.37 && d.Lat > 42.35 && d.Long < -71.05 && d.Long > -71.07)
+            vis.filteredLight = vis.lightData.filter(d => d.OBJECTID%2 === 1 && d.Lat < 42.34 && d.Lat > 42.32 && d.Long < -71.065 && d.Long > -71.085)
         }
 
         console.log(vis.filteredCrime)

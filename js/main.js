@@ -67,9 +67,8 @@ function initMainPage(dataArray) {
     // log data
     console.log('check out the data', dataArray);
 
-    crimeMap = new CrimeMap("crime-map", dataArray[0], dataArray[1], dataArray[2], [42.360082, -71.058880], "False", 12);
-    crimeMapZoom = new CrimeMap("crime-map-zoom", dataArray[0], dataArray[1], dataArray[2], [42.35988372, -71.06016189], "True", 15);
-    
+    crimeMap = new CrimeMap("crime-map", dataArray[0], dataArray[1], dataArray[2], [42.32339346, -71.06321676], "False", 12);
+    crimeMapZoom = new CrimeMap("crime-map-zoom", dataArray[0], dataArray[1], dataArray[2], [42.33119415, -71.07481518], "True", 15);
     new LightDist("light-distance", dataArray[0], dataArray[1]);
     new HourMonth("crime-hour-month-1", dataArray[2], dataArray[3]);
     new HourMonth("crime-hour-month-2", dataArray[2], dataArray[3]);

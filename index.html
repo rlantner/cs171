@@ -43,8 +43,24 @@
                 <div class="row gx-4 justify-content-center">
                     <div class="col-lg-8">
                         <h2>Part 1: Crime report</h2>
-                        <p class="lead">Basic “lay of the land” on Boston crime. Where does crime happen? What types of crimes are most prevalent? What are the trends over time? Maybe introduce some story points, and then position the visualizations together in a dashboard for the user to explore.</p>
-                        <div id="stackedBar"></div>
+                       <!-- <p class="lead">Basic “lay of the land” on Boston crime. Where does crime happen? What types of crimes are most prevalent? What are the trends over time? Maybe introduce some story points, and then position the visualizations together in a dashboard for the user to explore.</p> --->
+                        <p class="lead"> Crimes are typically illuminated by news reports in real-time, presumably depending on the type of crime, the location and if and how the crime was reported. But what about the state of crime as a whole in Boston?
+                        <br><br>
+                        The below dashboard shows the breakdown and trends over time of crimes against people taking place in Boston between 2016 and 2018. Select different values of the categories in the dropdowns to customize your crime report. In the bar chart, mouseover a section of the bar to learn more about what type of crime it represents.
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <select id='yearSelector' name="Year" class="custom-select align-self-center" style="width: 50%" onchange= 'updateAll()'>
+                                <option value ='all' selected> All Years</option>
+                                <option value="2018">Crimes in 2018</option>
+                                <option value ="2017">Crimes in 2017</option>
+                                <option value ='2016'>Crimes in 2016 </option>
+                            </select>
+                        </div>
+                        <div class="row" id="visRow">
+                            <div class ='col-6'id="stackedBar"></div>
+                            <div class="col-6" id="AreaChart"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -54,9 +70,26 @@
             <div class="container px-4">
                 <div class="row gx-4 justify-content-center">
                     <div class="col-lg-8">
-                        <h2>Part 2: From day to night</h2>
-                        <p class="lead">Custom viz. Introduce trends in daylight hours and seasonality.</p>
-                        <div id="crime-hour-month"></div>
+                        <h2>Part 2: Trends in crime by day and night</h2>
+                        <p class="lead">
+                            Research in Houston by Rice University<a href="https://kinder.rice.edu/sites/default/files/documents/Kinder%20Streetlights%20and%20Crime%20report.pdf"><sup>1</sup></a> suggests that while crimes against property often coincide with well-lit areas like shopping malls and airports,
+                            number of crimes against people has an association with streetlight density: more light, less crime. (This is not necessarily a causal relationship, but correlated nonetheless.)
+                            <br><br>
+                            Does the phenomenon hold true in Boston?
+                            <br><br>
+                            The visualization below shows the number of crimes committed over a three-year period from 2016 to 2018.
+                            We filter to assaults, injuries, and homocides, under the assumption that violent, public crimes against people are more likely to show seasonal and temporal patterns than crimes like fraud.
+                            Circle size depicts crime count and color indicates night, dawn, day, and dusk, accounting for changing sunrise and sunset times in Boston over the year.
+                        </p>
+                        <div id="crime-hour-month-1"></div>
+                        <p class="lead">
+                            <br>
+                            While hourly trends show low levels of violent crime in the morning with a ramp through the day, they do not reveal an obvious association between crime counts and "streetlight hours" (dusk to dawn).
+                            However, the categorization of assaults, injuries, and homocides is subject to variability in officers' reporting and our own interpretation of the crime data descriptions.
+                            The data for shootings, on the other hand, is more cut-and-dry.
+                            When we filter explicitly to crimes where shootings occurred, we can see in the visualization below that counts are generally higher at night, specifically during summer months.
+                        </p>
+                        <div id="crime-hour-month-2"></div>
                         <!-- <img src="assets/img/sketch2.jpg" alt="placeholder sketch" width="500" height="600"> -->
                     </div>
                 </div>
@@ -120,6 +153,7 @@
         <script src="js/hourMonth.js"></script>
         <script src="js/lightDist.js"></script>
         <script src="js/StackedBarVis.js"></script>
+        <script src="js/AreaChartVis.js"></script>
         <!-- Load data, create visualizations -->
         <script src="js/main.js"></script>
     </body>

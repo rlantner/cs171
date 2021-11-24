@@ -1,7 +1,9 @@
 // Variable for the visualization instance
 let crimeMap;
 let crimeMapZoom;
+let stackedBars;
 
+let parseTime = d3.timeParse('%Y')
 let btn;
 let lights = 0;
 
@@ -26,7 +28,7 @@ let promises = [
         data.MONTH = +data.MONTH;
         data.YEAR = +data.YEAR;
         data.SHOOTING = +data.SHOOTING;
-        data.OFFENSE_CODE = +data.OFFENSE_CODE;
+        //data.OFFENSE_CODE = +data.OFFENSE_CODE;
         return data
     }),
     d3.csv("data/streetlight-locations.csv", data => {
@@ -34,7 +36,17 @@ let promises = [
         data.Long = +data.Long;
         return data
     }),
-    d3.csv("data/crime_data_with_categories.csv"),
+    d3.csv("data/crime_data_with_categories.csv", data => {
+        data.ID = +data.ID;
+        data.LAT = +data.LAT;
+        data.LONG = +data.LONG;
+        data.HOUR = +data.HOUR;
+        data.MONTH = +data.MONTH;
+        data.SHOOTING = +data.SHOOTING;
+        data.OFFENSE_CODE = +data.OFFENSE_CODE;
+        data.YEAR1 = parseTime(data.YEAR);
+        return data
+    }),
     d3.csv("data/sun-position.csv", data => {
         data.hour = +data.hour;
         data.month_number = +data.month_number;
@@ -59,6 +71,12 @@ function initMainPage(dataArray) {
     crimeMapZoom = new CrimeMap("crime-map-zoom", dataArray[0], dataArray[1], dataArray[2], [42.35988372, -71.06016189], "True", 15);
     
     new LightDist("light-distance", dataArray[0], dataArray[1]);
-    new HourMonth("crime-hour-month", dataArray[0], dataArray[3]);
-    new StackedBarVis("stackedBar", dataArray[2]);
+    new HourMonth("crime-hour-month-1", dataArray[2], dataArray[3]);
+    new HourMonth("crime-hour-month-2", dataArray[2], dataArray[3]);
+    stackedBars = new StackedBarVis("stackedBar", dataArray[2]);
+    new AreaChartVis('AreaChart', dataArray[2])
+}
+
+function updateAll() {
+  stackedBars.wrangleData()
 }

@@ -11313,6 +11313,16 @@ header {
   background-position: center;
 }
 
+#part3 {
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+}
+
+#night-text {
+  color: white;
+}
+
 section {
   padding-top: 9rem;
   padding-bottom: 9rem;
@@ -11326,7 +11336,7 @@ section {
 
 #crime-map-zoom {
   width: 100%;
-  height: 500px;
+  height: 600px;
   margin: 20px
 }
 
@@ -11335,7 +11345,7 @@ p {
 }
 
 #button {
-  font-family: Montserrat;
+  font-family: var(--bs-body-font-family);
   margin-top: 210px;
 }
 

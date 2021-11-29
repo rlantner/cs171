@@ -11,10 +11,10 @@ function toggle()
 {
     lights = 1
     btn = document.getElementById("lights").innerText
-    console.log(btn);
     if(btn === "Turn on the lights!")
     {
-        console.log("off -> on")
+        document.getElementById("part3").style.color = "white";
+        document.getElementById("part3").style.backgroundImage = "url('img/night.png')";
         crimeMapZoom.wrangleData();
     }
 }
@@ -68,7 +68,8 @@ function initMainPage(dataArray) {
     console.log('check out the data', dataArray);
 
     crimeMap = new CrimeMap("crime-map", dataArray[0], dataArray[1], dataArray[2], [42.32339346, -71.06321676], "False", 12);
-    crimeMapZoom = new CrimeMap("crime-map-zoom", dataArray[0], dataArray[1], dataArray[2], [42.33119415, -71.07481518], "True", 15);
+    crimeMapZoom = new CrimeMap("crime-map-zoom", dataArray[0], dataArray[1], dataArray[2], [42.32525137, -71.08459937], "True", 15);
+
     new LightDist("light-distance", dataArray[0], dataArray[1]);
     new HourMonth("crime-hour-month-1", dataArray[2], dataArray[3]);
     new HourMonth("crime-hour-month-2", dataArray[2], dataArray[3]);

@@ -102,6 +102,18 @@
                     <div class="col-lg-8">
                         <h2>Part 3: Mapping streetlights and crime</h2>
                         <div class="row">
+                            <div class="lead">
+                                As we can see there is an increase in violent crimes against people taking place during nighttime
+                                hours, what ways are there to mediate this? We can now look at crime locations vs. streetlight
+                                locations and evaluate whether streetlights have an impact on crime.
+                            </div>
+                            <div class="lead">
+                                The below map of Boston shows all cases of homicide or instances of a shooting that took place during the
+                                nighttime hours between 2016 and 2018. You can select an individual instance to gain more insight
+                                such as the description of the crime, the date, and the location.
+                            </div>
+                        </div>
+                        <div class="row">
                             <div id="crime-map"></div>
                         </div>
                         <div class="row">
@@ -111,11 +123,16 @@
                             <div class="col-6">
                                 <button class="btn btn-lg btn-dark" id="lights" value="OFF" onclick="toggle()">Turn on the lights!</button>
                                 <p class="lead">
-                                    The above map shows the instances of violent crimes against people in the Boston area between
-                                    the hours of 6pm and 6am in the year 2018. To the left, we have isolated a crime-dense area of Boston.
-                                    If you click the button above, you can view the street-light locations for this smaller area
-                                    which demonstrates that the most crimes against people committed at night, are in
-                                    street-light sparse areas.
+                                    Now we need to visualize the proximity at which streetlights are to these instances
+                                    of violent crime. The map to the left shows an isolated view of a crime-dense area of
+                                    Boston near Nubian Square. If you click the button above, we can render the streetlights
+                                    for this area.
+                                </p>
+                                <p class="lead" id="night-text">
+                                    Visually, we can already see that the majority of these instances occur in less proximity
+                                    to streetlights, but more importantly the streetlight dense areas of this map have
+                                    very few crime occurences. However, to further support this claim, we have calculated
+                                    the average distance of crimes from streetlight locations in the following section.
                                 </p>
                             </div>
                         </div>

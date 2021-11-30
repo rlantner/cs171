@@ -11313,9 +11313,30 @@ header {
   background-position: center;
 }
 
+#part1 {
+  background-image: url('images/crime.png');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: cover;
+}
+
+#part2 {
+  background-image: url('images/sunset2.png');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: cover;
+}
+
 #part3 {
   background-repeat: no-repeat;
   background-position: center top;
+  background-size: cover;
+}
+
+#part5 {
+  background-image: url('images/skyline.png');
+  background-repeat: no-repeat;
+  background-position: center bottom;
   background-size: cover;
 }
 
@@ -11346,7 +11367,7 @@ p {
 
 #button {
   font-family: var(--bs-body-font-family);
-  margin-top: 210px;
+  margin-top: 260px;
 }
 
 #lights {

@@ -15,9 +15,15 @@ class HourMonth {
 
         let vis = this;
 
-        vis.margin = {top: 20, right: 50, bottom: 40, left: 70};
+        // vis dimensions are slightly different because first instance contains legend
+        if (vis.parentElement === "crime-hour-month-1") {
+            vis.margin = {top: 160, right: 50, bottom: 40, left: 70};
+            vis.height = 600 - vis.margin.top - vis.margin.bottom;
+        } else {
+            vis.margin = {top: 60, right: 50, bottom: 40, left: 70};
+            vis.height = 500 - vis.margin.top - vis.margin.bottom;
+        }
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
-        vis.height = 500 - vis.margin.top - vis.margin.bottom;
 
         // init drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -72,33 +78,101 @@ class HourMonth {
             .append("text")
             .attr("class","yLabel")
             .attr("x", 0)
-            .attr("y", d => vis.y(d) + vis.margin.top + 15)
+            .attr("y", d => vis.y(d) + 35)
             .text(d => d);
 
-        /*
-        vis.xAxis = d3.axisTop()
-            .scale(vis.x)
-            .tickValues([0,4,8,12,16,20,24]);
-
-        vis.yAxis = d3.axisLeft()
-            .scale(vis.y);
-
-        vis.svg.append("g")
-            .attr("class", "x-axis axis")
-            .attr("transform", "translate(30,0)")
-            .call(vis.xAxis);
-
-        vis.svg.append("g")
-            .attr("class", "y-axis axis")
-            .attr("transform", "translate(0,25)")
-            .call(vis.yAxis);
-        */
+        // chart titles
+        if (vis.parentElement === "crime-hour-month-1") {
+            vis.svg.append('text')
+                .attr("class", "h6")
+                .attr("x", -50)
+                .attr("y", -30)
+                .text("Assaults, Injuries, and Homicides")
+        } else {
+            vis.svg.append('text')
+                .attr("class", "h6")
+                .attr("x", -50)
+                .attr("y", -30)
+                .text("Shootings")
+        }
 
 
         // Append tooltips
         vis.tooltip = d3.select("body").append('div')
             .attr('class', "tooltip")
             .attr('id', 'bubbleTooltip');
+
+
+        // Append legend on first instance
+        if (vis.parentElement === "crime-hour-month-1") {
+
+            // number of crimes legend
+            var sizeLegendCircles = vis.svg.selectAll(".sizeLegendCircle")
+                .data([0,1,2]);
+
+            sizeLegendCircles.enter()
+                .append("circle")
+                .attr("class", "sizeLegendCircle")
+                .attr("cx", d => vis.width*(1/3) + d*22)
+                .attr("cy", -(vis.margin.top - 20))
+                .attr("r", d => d*3 + 5)
+                .attr("fill", "lightgrey")
+                .attr("transform", "translate(30,30)");
+
+            var sizeLegendText = vis.svg.selectAll(".sizeLegendText")
+                .data([0]);
+
+            sizeLegendText.enter()
+                .append("text")
+                .attr("class", "sizeLegendText")
+                .attr("x", vis.width*(1/3) + 70)
+                .attr("y", -(vis.margin.top - 25))
+                .text("Number of Crimes")
+                .attr("transform", "translate(30,30)");
+
+
+            // sunlight color legend
+            var colorLegendCircles = vis.svg.selectAll(".colorLegendCircle")
+                .data([0,1,2]);
+
+            colorLegendCircles.enter()
+                .append("circle")
+                .attr("class", "colorLegendCircle")
+                .attr("cx", vis.width*(3/4))
+                .attr("cy", d => -(vis.margin.top) + d*22)
+                .attr("r", 8)
+                .attr("fill", function(d) {
+                    if (d === 0) {
+                        return "gold"
+                    } else if (d === 1) {
+                        return "orange"
+                    } else {
+                        return "navy"
+                    }
+                })
+                .attr("transform", "translate(30,30)");
+
+
+            var colorLegendText = vis.svg.selectAll(".colorLegendText")
+                .data([0,1,2]);
+
+            colorLegendText.enter()
+                .append("text")
+                .attr("class", "colorLegendText")
+                .attr("x", vis.width*(3/4) + 15)
+                .attr("y", d => -(vis.margin.top - 5) + d*22)
+                .text(function(d) {
+                    if (d === 0) {
+                        return "Day"
+                    } else if (d === 1) {
+                        return "Sunrise & Sunset"
+                    } else {
+                        return "Night"
+                    }
+                })
+                .attr("transform", "translate(30,30)");
+
+        }
 
 
             vis.wrangleData();

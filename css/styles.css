@@ -1,16 +1,18 @@
 @charset "UTF-8";
 
 /* our custom D3 styles */
-.xLabel {
-  text-anchor: middle;
+
+.colorLegendText, .sizeLegendText, .xLabel, .yLabel {
   font-size: 10pt;
   fill: gray;
 }
 
+.xLabel {
+  text-anchor: middle;
+}
+
 .yLabel {
   text-anchor: end;
-  font-size: 10pt;
-  fill: gray;
 }
 
 

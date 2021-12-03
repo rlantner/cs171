@@ -4,16 +4,15 @@ let crimeMapZoom;
 let stackedBars;
 
 let parseTime = d3.timeParse('%Y')
-let btn;
 let lights = 0;
 
+// Light toggle function - style changes
 function toggle()
 {
-    lights = 1
-    btn = document.getElementById("lights").innerText
-    if(btn === "Turn on the lights!")
-    {
+    if (lights !== 2) {
+        lights = 1
         document.getElementById("part3").style.color = "white";
+        document.getElementById("lights").style.borderColor = "white";
         document.getElementById("part3").style.backgroundImage = "url('img/night.png')";
         crimeMapZoom.wrangleData();
     }

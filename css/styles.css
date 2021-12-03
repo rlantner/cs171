@@ -7513,6 +7513,11 @@ textarea.form-control-lg {
   padding-bottom: 3rem !important;
 }
 
+.py-6 {
+  padding-top: 4rem !important;
+  padding-bottom: 4rem !important;
+}
+
 .pt-0 {
   padding-top: 0 !important;
 }
@@ -11315,6 +11320,13 @@ header {
   background-position: center;
 }
 
+#header {
+  background-image: url('images/Banner.png');
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+}
+
 #part1 {
   background-image: url('images/crime.png');
   background-repeat: no-repeat;
@@ -11354,7 +11366,7 @@ section {
 #crime-map {
   width: 100%;
   height: 600px;
-  margin: 20px
+  margin-left: 30px
 }
 
 #crime-map-zoom {

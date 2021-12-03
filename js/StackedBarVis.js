@@ -388,7 +388,7 @@ class StackedBarVis {
             .attr('stroke', 'white')
 
 
-        stacks.exit().remove()
+        stackGroups.exit().remove()
         vis.svg.select(".y-axis")
             .call(vis.yAxis)
 

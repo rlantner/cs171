@@ -110,6 +110,7 @@ class CrimeMap {
                             .addTo(vis.map)
                     })
                 }
+            lights = 2
         }
 
         /* Add crime markers wigth pop-ups */

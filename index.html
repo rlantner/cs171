@@ -71,14 +71,37 @@
                         The below dashboard shows the breakdown and trends over time of crimes against people taking place in Boston between 2016 and 2018. Select different values of the categories in the dropdowns to customize your crime report. In the bar chart, mouseover a section of the bar to learn more about what type of crime it represents.
                     </div>
                     <div class="container">
-                        <div class="row">
-                            <select id='yearSelector' name="Year" class="custom-select align-self-center" style="width: 50%" onchange= 'updateAll()'>
-                                <option value ='all' selected> All Years</option>
-                                <option value="2018">Crimes in 2018</option>
-                                <option value ="2017">Crimes in 2017</option>
-                                <option value ='2016'>Crimes in 2016 </option>
+                            <select id='showShootings'  class="custom-select align-self-center" style="width: 50%" onchange= 'updateAll()'>
+                                <option value ='all' selected></option>
+                                <option value=1>Show Shootings</option>
                             </select>
-                        </div>
+                            <select id='showMonth'  class="custom-select align-self-center" style="width: 50%" onchange= 'updateAll()'>
+                                <option value ='all' selected> All Months</option>
+                                <option value=1>January Crimes</option>
+                                <option value=2>February Crimes</option>
+                                <option value=3>March Crimes</option>
+                                <option value=4>April Crimes</option>
+                                <option value=5>May Crimes</option>
+                                <option value=6>June Crimes</option>
+                                <option value=7>July Crimes</option>
+                                <option value=8>August Crimes</option>
+                                <option value=9>September Crimes</option>
+                                <option value=10>October Crimes</option>
+                                <option value=11>November Crimes</option>
+                                <option value=12>December Crimes</option>
+                            </select>
+                            <select id='showDay'  class="custom-select align-self-center" style="width: 50%" onchange= 'updateAll()'>
+                                <option value ='all' selected> All Days</option>
+                                <option value='Monday'>Crimes on Mondays</option>
+                                <option value='Tuesday'>Crimes on Tuesdays</option>
+                                <option value='Wednesday'>Crimes on Wednesdays</option>
+                                <option value='Thursday'>Crimes on Thursdays</option>
+                                <option value='Friday'>Crimes on Fridays</option>
+                                <option value='Saturday'>Crimes on Saturdays</option>
+                                <option value='Sunday'>Crimes on Sundays</option>
+
+                            </select>
+
                         <div class="row" id="visRow">
                             <div class ='col-6'id="stackedBar"></div>
                             <div class="col-6" id="AreaChart"></div>

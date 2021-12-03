@@ -228,9 +228,9 @@ class StackedBarVis {
 
          let stackGroups = stacks.enter()
             .append('g')
+            .merge(stacks)
             .attr('class', 'barGroups')
 
-            stacks.merge(stackGroups)
         //draw base level bar in each group
 
         vis.barOne = stackGroups.append('rect')

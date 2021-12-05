@@ -50,6 +50,20 @@ let promises = [
         data.hour = +data.hour;
         data.month_number = +data.month_number;
         return data
+    }),
+    d3.csv("data/crime_light_dist.csv", data => {
+        data.ID = +data.ID;
+        data.lightID = +data.lightID;
+        data.lat1 = +data.lat1;
+        data.long1 = +data.long1;
+        data.lat2 = +data.lat2;
+        data.long2 = +data.long2;
+        data.HOUR = +data.HOUR;
+        data.MONTH = +data.MONTH;
+        data.YEAR = +data.YEAR;
+        data.SHOOTING = +data.SHOOTING;
+        data.dist = +data.dist;
+        return data
     })
 ];
 
@@ -69,11 +83,12 @@ function initMainPage(dataArray) {
     crimeMap = new CrimeMap("crime-map", dataArray[0], dataArray[1], dataArray[2], [42.32339346, -71.06321676], "False", 12);
     crimeMapZoom = new CrimeMap("crime-map-zoom", dataArray[0], dataArray[1], dataArray[2], [42.32525137, -71.08459937], "True", 15);
 
-    new LightDist("light-distance", dataArray[0], dataArray[1]);
     new HourMonth("crime-hour-month-1", dataArray[2], dataArray[3]);
     new HourMonth("crime-hour-month-2", dataArray[2], dataArray[3]);
     stackedBars = new StackedBarVis("stackedBar", dataArray[2]);
     new AreaChartVis('AreaChart', dataArray[2])
+    new LightDist("light-distance", dataArray[4]);
+
 }
 
 function updateAll() {

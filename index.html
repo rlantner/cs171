@@ -23,12 +23,12 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="#part0">Introduction</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#part1">Crime</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#part0">Intro</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#part1">Crime Overview</a></li>
                         <li class="nav-item"><a class="nav-link" href="#part2">Day & Night</a></li>
                         <li class="nav-item"><a class="nav-link" href="#part3">Map</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#part4">Streetlights</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#part5">Conclusion</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#part4">Light Distance</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#part5">Takeaways</a></li>
                     </ul>
                 </div>
             </div>
@@ -45,16 +45,17 @@
             <div class="container px-4">
                 <div class="row gx-4 justify-content-center">
                     <div class="col-lg-8">
-                        <h2>Introduction</h2>
-                        <p class="lead">Everyone is concerned about crime in their area, a Gallup poll<a href="https://news.gallup.com/poll/1603/crime.aspx"><sup>1</sup></a>
-                            from this year showed that over 50% of Americans consider crime in the Unites States to be a very or extremely
-                            serious problem. But how does Boston stack up?
+                        <h2>A Brief Introduction to Crime</h2>
+                        <p class="lead">
+                            According to a Gallup poll from this year, over 50% of Americans consider crime in the United States to be a very or extremely
+                            serious problem.<a href="https://news.gallup.com/poll/1603/crime.aspx"><sup>1</sup></a>
+                            Boston lies in the top 50 of the 100 most populated U.S. cities in terms of
+                            violent crime rates.<a href="https://en.wikipedia.org/wiki/List_of_United_States_cities_by_crime_rate"><sup>2</sup></a>
+                            But can smart city planning and infrastructure reduce crime? What impact, if any, do streetlights have?
                         </p>
                         <p class="lead">
-                            Boston lies in the top 50% of the 100 most populated cities in the United States in terms of
-                            violent crime rates.<a href="https://en.wikipedia.org/wiki/List_of_United_States_cities_by_crime_rate"><sup>2</sup></a>
-                            Let's delve into these trends and consider some potential methods to decrease the rate of
-                            violent crime in Boston.
+                            To answer this question, we leveraged Boston's open data platform and investigated nearly 265,000 crimes reported over the years 2016-2018.
+                            Scroll on to explore the trends, as we consider the effect of streetlights on mitigating violent crime in Boston.
                         </p>
                     </div>
                 </div>
@@ -65,11 +66,13 @@
             <div class="container px-4">
                 <div class="row gx-4 justify-content-center">
                     <div class="col-lg-8">
-                        <h2>Part 1: Crime report</h2>
-                       <!-- <p class="lead">Basic “lay of the land” on Boston crime. Where does crime happen? What types of crimes are most prevalent? What are the trends over time? Maybe introduce some story points, and then position the visualizations together in a dashboard for the user to explore.</p> --->
-                        <p class="lead"> Crimes are typically illuminated by news reports in real-time, presumably depending on the type of crime, the location and if and how the crime was reported. But what about the state of crime as a whole in Boston?
-                        <br><br>
-                        The below dashboard shows the breakdown and trends over time of crimes against people taking place in Boston between 2016 and 2018. Select different values of the categories in the dropdowns to customize your crime report. In the bar chart, mouseover a section of the bar to learn more about what type of crime it represents.
+                        <h2>The Boston Crime Scene</h2>
+                        <p class="lead">
+                            First, let's examine crime types and trends.
+                            The dashboard below contains data for all crimes against people (not property) reported over a three-year span.
+                            Hover over the bar chart to learn more about the categories and counts, or brush over the area chart to filter the crimes to a given timeframe.
+                            Customize your crime report by selecting different values in the dropdowns.
+                        </p>
                     </div>
                     <div class="container form-inline">
                         <div class="row">
@@ -107,23 +110,24 @@
             <div class="container px-4">
                 <div class="row gx-4 justify-content-center">
                     <div class="col-lg-8">
-                        <h2>Part 2: Trends in crime by day and night</h2>
+                        <h2>Trends by Day and Night</h2>
                         <p class="lead">
+                            After an orientation to the big picture trends, let's drill down into the data that's most relevant to the question of streetlights: time of day.
                             Research in Houston by Rice University<a href="https://kinder.rice.edu/sites/default/files/documents/Kinder%20Streetlights%20and%20Crime%20report.pdf"><sup>3</sup></a> suggests that while crimes against property often coincide with well-lit areas like shopping malls and airports,
-                            number of crimes against people has an association with streetlight density: more light, less crime. (This is not necessarily a causal relationship, but correlated nonetheless.)
+                            number of crimes against people has an association with streetlight density. (Not necessarily a causal relationship, but correlated nonetheless.)
                             <br><br>
                             Does the phenomenon hold true in Boston?
                             <br><br>
-                            The visualization below shows the number of crimes committed over a three-year period from 2016 to 2018.
+                            The visualization below features 2016-2018 crime reports.
                             We filter to assaults, injuries, and homicides, under the assumption that violent, public crimes against people are more likely to show seasonal and temporal patterns than crimes like fraud.
-                            Circle size depicts crime count and color indicates night, dawn, day, and dusk, accounting for changing sunrise and sunset times in Boston over the year.
+                            Circle size depicts crime count and color accounts for changing sunrise and sunset times in Boston over the year.
                         </p>
                         <div id="crime-hour-month-1"></div>
                         <p class="lead">
                             <br>
                             While hourly trends show low levels of violent crime in the morning with a ramp through the day, they do not reveal an obvious association between crime counts and "streetlight hours" (dusk to dawn).
                             However, the categorization of assaults, injuries, and homicides is subject to variability in officers' reporting and our own interpretation of the crime data descriptions.
-                            The data for shootings, on the other hand, is more cut-and-dry.
+                            The data for shootings, on the other hand, is binary and clearer to interpret.
                             When we filter explicitly to crimes where shootings occurred, we can see in the visualization below that counts are generally higher at night, specifically during summer months.
                         </p>
                         <div id="crime-hour-month-2"></div>
@@ -144,17 +148,13 @@
             <div class="container px-4">
                 <div class="row gx-4 justify-content-center">
                     <div class="col-lg-8">
-                        <h2>Part 3: Mapping streetlights and crime</h2>
+                        <h2>Mapping Crime and Streetlights</h2>
                         <div class="row">
                             <p class="lead">
-                                As we can see there is an increase in violent crimes against people taking place during nighttime
-                                hours, what ways are there to mediate this? We can now look at crime locations vs. streetlight
-                                locations and evaluate whether streetlights have an impact on crime.
-                            </p>
-                            <p class="lead">
-                                The below map of Boston shows all cases of homicide or instances of a shooting that took place during the
-                                nighttime hours between 2016 and 2018. You can select an individual instance to gain more insight
-                                such as the description of the crime, the date, and the location.
+                                Given that shootings are more likely to occur at night than during the day,
+                                let's delve into these violent nighttime crimes and take a closer look at where they occurred.
+                                This map of Boston shows all cases of homicide or instances of a shooting that took place at night
+                                over the three-year period. Select an individual crime instance to gain more insight.
                             </p>
                         </div>
                         <div class="row">
@@ -165,18 +165,18 @@
                                 <div id="crime-map-zoom"></div>
                             </div>
                             <div class="col-6">
-                                <button class="btn btn-lg btn-dark" id="lights" value="OFF" onclick="toggle()">Turn on the lights!</button>
                                 <p class="lead">
-                                    Now we need to visualize the proximity at which streetlights are to these instances
-                                    of violent crime. The map to the left shows an isolated view of a crime-dense area of
-                                    Boston near Nubian Square. If you click the button above, we can render the streetlights
-                                    for this area.
+                                    Where are the streetlights in relation to the crimes?
+                                    <br><br>
+                                    The map on the left shows an isolated view of a crime-dense area of
+                                    Boston near Nubian Square. Click the button below to render the streetlights for this area.
                                 </p>
+                                <button class="btn btn-lg btn-dark" id="lights" value="OFF" onclick="toggle()">Turn on the lights!</button>
                                 <p class="lead" id="night-text">
-                                    Visually, we can already see that the majority of these instances occur in less proximity
-                                    to streetlights, but more importantly the streetlight dense areas of this map have
-                                    very few crime occurences. However, to further support this claim, we have calculated
-                                    the average distance of crimes from streetlight locations in the following section.
+                                    Visually, we can see that the majority of these crimes occur in less proximity
+                                    to streetlights, but more importantly, the streetlight-dense areas of this map have
+                                    very few crime occurrences. To further substantiate this claim, we'll calculate
+                                    the average distance between crimes and streetlight locations. Scroll on!
                                 </p>
                             </div>
                         </div>
@@ -189,8 +189,8 @@
             <div class="container px-4">
                 <div class="row gx-4 justify-content-center">
                     <div class="col-lg-8">
-                        <h2>Part 4: Shining a light on crime</h2>
-                        <p class="lead">This is the conclusion, the “so what” visualization. Impact of streetlights on crime, explanations of confounding variables, etc.</p>
+                        <h2>Plotting the Distance</h2>
+                        <p class="lead">Text placeholder. This is “so what” visualization, final impact of streetlights on crime.</p>
                         <div id="light-distance"></div>
                     </div>
                 </div>
@@ -201,14 +201,20 @@
             <div class="container px-4">
                 <div class="row gx-4 justify-content-center">
                     <div class="col-lg-8">
-                        <h2>Conclusion</h2>
-                        <p class="lead">What can we learn from this data? It’s clear that streetlights do in fact have
-                            an impact on violent crimes that take place at night, but the fact is that most crimes in
-                            fact do take place during daytime hours, when streetlights have no impact. While increasing
-                            the number of streetlights in poorly lit areas of any city can prevent pockets of increased
-                            violent crime rates, every city should also be focussing on crime prevention methods such as
-                            increasing minimum wage and gun control initiatives.
+                        <h2>Beyond the Bulbs</h2>
+                        <p class="lead">
+                            What can this data teach us? Do streetlights really reduce crime?
+                            As our analysis shows, few violent crimes take place at night in well-lit areas,
+                            but on the whole, the majority of crimes occur during the day, when lights have no impact.
+                            While increasing the number of streetlights in poorly-lit areas of a city may prevent pockets of
+                            violent crime, it doesn't get to the root of the issue. If cities like Boston truly want to reduce their crime rates,
+                            they should focus on socioeconomic initiatives and crime prevention methods, like increasing the minimum wage and tightening gun control laws.
+                            There are other variables at play in geographical crime trends besides streetlight density,
+                            and as the Houston study suggests, the context of an area may be more important than the physical lights
+                            themselves.<a href="https://kinder.rice.edu/sites/default/files/documents/Kinder%20Streetlights%20and%20Crime%20report.pdf"><sup>3</sup></a>
                         </p>
+                        <br>
+                        <br>
                         <br>
                         <br>
                         <br>
@@ -223,7 +229,33 @@
         </section>
         <!-- Footer-->
         <footer class="py-5 bg-dark">
-            <div class="container px-4"><p class="m-0 text-center text-white">Copyright &copy; Boston in the Shadows 2021</p></div>
+            <div class="container px-4">
+                <div class="row">
+                <div class="col-6">
+                    <h4 class="m-0 text-white">The Team</h4>
+                    <p class="m-0 text-white">Julia Kennish, Rebecca Lantner, Annah Mercer, Emma Starr</p>
+                    <br>
+                    <h4 class="m-0 text-white">The Data</h4>
+                    <p class="m-0 text-white">
+                        Boston Open Data <a href="https://data.boston.gov/dataset/crime-incident-reports-august-2015-to-date-source-new-system">Crime Incident Reports</a>
+                        and <a href="https://data.boston.gov/dataset/streetlight-locations">Streetlight Locations</a>
+                    </p>
+                </div>
+                <div class="col-6">
+                    <h4 class="m-0 text-white">References</h4>
+                    <p class="m-0 text-white">
+                        1. <a href="https://news.gallup.com/poll/1603/crime.aspx"> Gallup poll on perceptions of crime</a>
+                        <br>
+                        2. <a href="https://en.wikipedia.org/wiki/List_of_United_States_cities_by_crime_rate">U.S. cities by crime rate</a>
+                        <br>
+                        3. Rice University Kinder Institute for Urban Research, <a href="https://kinder.rice.edu/sites/default/files/documents/Kinder%20Streetlights%20and%20Crime%20report.pdf">What Happens in the Shadows: Streetlights and How They Relate to Crime</a>
+                    </p>
+                    <br>
+                    <br>
+                    <br>
+                </div>
+                </div>
+            </div>
         </footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

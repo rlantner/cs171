@@ -254,9 +254,9 @@ class HourMonth {
             .attr("class", "sunlightRect")
             .merge(sunlightRects)
             .attr("x", d => vis.x(d.hour) - (vis.width/24 + 2)/2)
-            .attr("y", d => vis.y(d.month_text) - 2)
+            .attr("y", d => vis.y(d.month_text))
             .attr("width", vis.width/24 + 2)
-            .attr("height", 4)
+            .attr("height", 0.5)
             .attr("fill", function(d) {
                 if (d.sun_position === 'day') {
                     return "gold"
@@ -287,7 +287,8 @@ class HourMonth {
 
                 d3.select(event.currentTarget)
                     .transition()
-                    .attr("fill", function(d) {
+                    .attr("stroke","grey")
+                    /*.attr("fill", function(d) {
                         if (d.sun_position === 'day') {
                             return "gold"
                         } else if (d.sun_position === 'night') {
@@ -295,7 +296,7 @@ class HourMonth {
                         } else {
                             return "orange"
                         }
-                    })
+                    })*/
                     .attr("r", 12);
 
                 vis.tooltip
@@ -313,7 +314,16 @@ class HourMonth {
 
                 d3.select(event.currentTarget)
                     .transition()
-                    .attr("fill","white")
+                    //.attr("fill","white")
+                    .attr("stroke", function(d) {
+                        if (d.sun_position === 'day') {
+                            return "gold"
+                        } else if (d.sun_position === 'night') {
+                            return "navy"
+                        } else {
+                            return "orange"
+                        }
+                    })
                     .attr("r", d => vis.rScale(d.crime_count));
 
                 vis.tooltip
@@ -327,9 +337,8 @@ class HourMonth {
             .attr("cy", d => vis.y(d.month_text))
             .attr("r", d => vis.rScale(d.crime_count))
             .attr("fill", "white")
-            //.attr("fill", "white")
             .attr("stroke-width","2")
-            .attr("stroke", function(d) {
+            .attr("fill", function(d) {
                 if (d.sun_position === 'day') {
                     return "gold"
                 } else if (d.sun_position === 'night') {

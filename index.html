@@ -69,49 +69,43 @@
                         <h2>The Boston Crime Scene</h2>
                         <p class="lead">
                             First, let's examine crime types and trends.
-                            The dashboard below contains data for all crimes against people (not property) reported over a three-year span.
-                            Hover over the bar chart to learn more about the categories and counts, or brush over the area chart to filter the crimes to a given timeframe.
-                            Customize your crime report by selecting different values in the dropdowns.
+                            The dashboard below contains data for all crimes against people (not property) reported over the three-year span.
+                            Hover over the bar chart to learn more about the crimes that make up each category and their prevalence. Brush the area chart to see crime patterns during a given range of months.
+                            Customize your crime report by using the toggles.
                         </p>
                     </div>
-                    <div class="container">
-                            <select id='showShootings'  class="custom-select align-self-center" style="width: 50%" onchange= 'updateAll()'>
-                                <option value ='all' selected></option>
-                                <option value=1>Show Shootings</option>
-                            </select>
-                            <select id='showMonth'  class="custom-select align-self-center" style="width: 50%" onchange= 'updateAll()'>
-                                <option value ='all' selected> All Months</option>
-                                <option value=1>January Crimes</option>
-                                <option value=2>February Crimes</option>
-                                <option value=3>March Crimes</option>
-                                <option value=4>April Crimes</option>
-                                <option value=5>May Crimes</option>
-                                <option value=6>June Crimes</option>
-                                <option value=7>July Crimes</option>
-                                <option value=8>August Crimes</option>
-                                <option value=9>September Crimes</option>
-                                <option value=10>October Crimes</option>
-                                <option value=11>November Crimes</option>
-                                <option value=12>December Crimes</option>
-                            </select>
-                            <select id='showDay'  class="custom-select align-self-center" style="width: 50%" onchange= 'updateAll()'>
-                                <option value ='all' selected> All Days</option>
-                                <option value='Monday'>Crimes on Mondays</option>
-                                <option value='Tuesday'>Crimes on Tuesdays</option>
-                                <option value='Wednesday'>Crimes on Wednesdays</option>
-                                <option value='Thursday'>Crimes on Thursdays</option>
-                                <option value='Friday'>Crimes on Fridays</option>
-                                <option value='Saturday'>Crimes on Saturdays</option>
-                                <option value='Sunday'>Crimes on Sundays</option>
+                    <div class="container form-inline">
+                        <div class="row">
+                            <div class="form-check form-switch" >
+                                <input class="form-check-input" type="checkbox" id="showShootings" style=" width: 50px; margin-left:140px; margin-right:5px" onclick="updateAll()">
+                                <label class="form-check-label" for="showShootings" style="margin-right:140px">Show Shootings</label>
+                                <select id='showDay'  class="custom-select align-self-center" style="width: 20%; margin-right:140px" onchange= 'updateAll()'>
+                                    <option value ='all' selected> All Days</option>
+                                    <option value='Monday'>Crimes on Mondays</option>
+                                    <option value='Tuesday'>Crimes on Tuesdays</option>
+                                    <option value='Wednesday'>Crimes on Wednesdays</option>
+                                    <option value='Thursday'>Crimes on Thursdays</option>
+                                    <option value='Friday'>Crimes on Fridays</option>
+                                    <option value='Saturday'>Crimes on Saturdays</option>
+                                    <option value='Sunday'>Crimes on Sundays</option>
+                                </select>
+                                <select id='showYear'  class="custom-select align-self-center" style="width: 20%; margin-right:140px" onchange= 'updateAll()'>
+                                    <option value ='all' selected> All Years</option>
+                                    <option value=2016>2016 Crimes</option>
+                                    <option value=2017>2017 Crimes</option>
+                                    <option value=2018>2018 Crimes</option>
+                                </select>
+                            <div>
 
-                            </select>
-
+                        </div>
                         <div class="row" id="visRow">
                             <div class ='col-6'id="stackedBar"></div>
                             <div class="col-6" id="AreaChart"></div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
             </div>
         </section>
         <!-- Part 2 section-->

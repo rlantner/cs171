@@ -104,6 +104,22 @@ class AreaChartVis{
             vis.displayData = vis.data.filter(x=> x.YEAR==vis.yearFilter)
         }
 
+        vis.dayFilter =  document.getElementById('showDay').value;
+        if(vis.dayFilter =='all'){
+            console.log("all")
+            vis.displayData = vis.displayData
+        } else{
+            console.log('made it')
+            vis.displayData = vis.displayData.filter(x=>x.DAY_OF_WEEK == vis.dayFilter)
+        }
+
+        //filter by shootings
+        if (document.getElementById('showShootings').checked) {
+            //console.log('I am checked')
+            vis.displayData = vis.displayData.filter(x => x.SHOOTING ==1)
+        } else{
+            vis.displayData = vis.displayData
+        }
 
         let dataByDate = d3.group(vis.displayData)
         let countDataByDate = d3.rollup(vis.displayData, leaves=>leaves.length, d=>d.MONTH)

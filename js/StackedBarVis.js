@@ -71,11 +71,12 @@ class StackedBarVis {
     wrangleData(){
         let vis = this;
         vis.yearFilter =  document.getElementById('showYear').value;
-        vis.shootings =  document.getElementById('showShootings').value;
         vis.dayFilter =  document.getElementById('showDay').value;
+
         //filter by shootings
-        if (vis.shootings ==1) {
-          vis.preparedData = vis.displayData.filter(x => x.SHOOTING ==1)
+        if (document.getElementById('showShootings').checked) {
+            //console.log('I am checked')
+            vis.preparedData = vis.displayData.filter(x => x.SHOOTING ==1)
         } else{
             vis.preparedData = vis.displayData
         }
@@ -280,7 +281,9 @@ class StackedBarVis {
             .attr("class", "crime")
             .attr("class", (d, i) => `crime crime${i}`)
             .attr("fill", "black")
-            .attr("stroke", "white")
+            .attr("stroke", "deepskyblue")
+            .attr('stroke-width', 2)
+
             .merge(rects)
            .transition()
             .attr("y", d => {

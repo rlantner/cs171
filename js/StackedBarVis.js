@@ -220,7 +220,7 @@ class StackedBarVis {
 
         }
         )
-
+        vis.filteredData.sort((a, b) => a.group.localeCompare(b.group)) //inspo https://stackoverflow.com/questions/6712034/sort-array-by-firstname-alphabetically-in-javascript
         console.log(vis.filteredData)
 
 
@@ -251,7 +251,7 @@ class StackedBarVis {
 
         barsEnter
             .merge(bars)
-            .transition()
+            //.transition(d3.easeElastic)
             .attr('transform', d=> `translate(${vis.x(d.group)},0)`); //move bars to align wuth axis
 
         vis.svg.selectAll('g.bar').data(vis.filteredData, d=>d.group).exit().remove();
@@ -285,7 +285,7 @@ class StackedBarVis {
             .attr('stroke-width', 2)
 
             .merge(rects)
-           .transition()
+           //.transition(d3.easeElastic)
             .attr("y", d => {
                 //console.log(d)
                 //console.log(d.count+d.lastCount)
@@ -296,9 +296,11 @@ class StackedBarVis {
 
        //call axes
         vis.svg.select(".y-axis")
+            .transition()
             .call(vis.yAxis)
 
         vis.svg.select(".x-axis")
+            .transition()
             .call(vis.xAxis)
 
         //tool tip actions

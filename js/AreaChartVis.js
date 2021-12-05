@@ -93,8 +93,6 @@ class AreaChartVis{
     wrangleData() {
         let vis = this;
 
-        // (1) Group data by date and count survey results for each day
-        // (2) Sort data by day
         // * TO-DO *
 
         vis.yearFilter =  document.getElementById('showYear').value;
@@ -171,8 +169,8 @@ class AreaChartVis{
 
 
         // Update axes
-        vis.svg.select(".y-axis").call(vis.yAxis);
-        vis.svg.select(".x-axis").call(vis.xAxis);
+        vis.svg.select(".y-axis").transition().call(vis.yAxis);
+        vis.svg.select(".x-axis").transition().call(vis.xAxis);
 
     }
 }

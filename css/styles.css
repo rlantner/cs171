@@ -1,7 +1,6 @@
 @charset "UTF-8";
 
 /* our custom D3 styles */
-
 .colorLegendText, .sizeLegendText, .xLabel, .yLabel {
   font-size: 10pt;
   fill: gray;

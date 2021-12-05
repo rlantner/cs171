@@ -2,8 +2,8 @@
 let crimeMap;
 let crimeMapZoom;
 let stackedBars;
+let areaChart;
 
-let parseTime = d3.timeParse('%Y')
 let lights = 0;
 
 // Light toggle function - style changes
@@ -27,7 +27,6 @@ let promises = [
         data.MONTH = +data.MONTH;
         data.YEAR = +data.YEAR;
         data.SHOOTING = +data.SHOOTING;
-        //data.OFFENSE_CODE = +data.OFFENSE_CODE;
         return data
     }),
     d3.csv("data/streetlight-locations.csv", data => {
@@ -43,7 +42,6 @@ let promises = [
         data.MONTH = +data.MONTH;
         data.SHOOTING = +data.SHOOTING;
         data.OFFENSE_CODE = +data.OFFENSE_CODE;
-        data.YEAR1 = parseTime(data.YEAR);
         return data
     }),
     d3.csv("data/sun-position.csv", data => {
@@ -73,9 +71,23 @@ function initMainPage(dataArray) {
     new HourMonth("crime-hour-month-1", dataArray[2], dataArray[3]);
     new HourMonth("crime-hour-month-2", dataArray[2], dataArray[3]);
     stackedBars = new StackedBarVis("stackedBar", dataArray[2]);
-    new AreaChartVis('AreaChart', dataArray[2])
+    areaChart = new AreaChartVis('AreaChart', dataArray[2])
 }
 
 function updateAll() {
   stackedBars.wrangleData()
+    areaChart.wrangleData()
+}
+
+// React to 'brushed' event and update all bar charts
+function brushed() {
+
+    // * TO-DO *
+    // Get the extent of the current brush
+    let selectionRange = d3.brushSelection(d3.select(".brush").node());
+    // Convert the extent into the corresponding domain values
+    let brushRegion = selectionRange.map(areaChart.x.invert);
+    //console.log(brushRegion) for debugging
+    stackedBars.selectionChanged(brushRegion)
+
 }

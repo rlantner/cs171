@@ -11,7 +11,7 @@ Screencast URL:
 
 Our final project details an analysis of the effectiveness of streetlights on violent crime in the city of Boston.
 
-In our submission our 'data' folder contains all our datasets, the sources for which can be found on our website footer. Our 'code' folder includes all of our code files which was constructed in part using Leaflet libraries and a Bootstrap template. Outside of our folder structure we have our screencast video and our pdf of our file process book.
+In our submission our 'data' folder contains all our datasets, the sources for which can be found on our website footer. Our 'code' folder includes all of our code files which was constructed in part using Leaflet libraries and a Bootstrap template. Outside of our folder structure we have our screencast video and our pdf of our final process book.
 
 Part 1: A analysis of Boston crime statistics, with the ability to filter but day of the week, month of the year, and shooting instances.
 

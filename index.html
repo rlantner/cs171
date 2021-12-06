@@ -118,7 +118,7 @@
                         <p class="lead">
                             After an orientation to the big picture trends, let's drill down into the data that's most relevant to the question of streetlights: time of day.
                             Research in Houston by Rice University<a href="https://kinder.rice.edu/sites/default/files/documents/Kinder%20Streetlights%20and%20Crime%20report.pdf"><sup>3</sup></a> suggests that while crimes against property often coincide with well-lit areas like shopping malls and airports,
-                            number of crimes against people has an association with streetlight density. (Not necessarily a causal relationship, but correlated nonetheless.)
+                            number of crimes against people has a negative association with streetlight density. (Not necessarily a causal relationship, but correlated nonetheless.)
                             <br><br>
                             Does the phenomenon hold true in Boston?
                             <br><br>
@@ -132,7 +132,7 @@
                             While hourly trends show low levels of violent crime in the morning with a ramp through the day, they do not reveal an obvious association between crime counts and "streetlight hours" (dusk to dawn).
                             However, the categorization of assaults, injuries, and homicides is subject to variability in officers' reporting and our own interpretation of the crime data descriptions.
                             The data for shootings, on the other hand, is binary and clearer to interpret.
-                            When we filter explicitly to crimes where shootings occurred, we can see in the visualization below that counts are generally higher at night, specifically during summer months.
+                            When we filter explicitly to crimes where shootings occurred, we see in the visualization below that counts are generally higher at night, especially during summer months.
                         </p>
                         <div id="crime-hour-month-2"></div>
                         <br>
@@ -180,10 +180,10 @@
                                 </p>
                                 <button class="btn btn-lg btn-dark" id="lights" value="OFF" onclick="toggle()">Turn on the lights!</button>
                                 <p class="lead" id="night-text">
-                                    Visually, we can see that the majority of these crimes occur in less proximity
-                                    to streetlights, but more importantly, the streetlight-dense areas of this map have
-                                    very few crime occurrences. To further substantiate this claim, next we calculate
-                                    the average distance between crimes and streetlight locations. Scroll on!
+                                    Visually, we can see that the streetlight-dense areas of this map have very few crime occurrences.
+                                    However, it is hard to visually assess the distances between crimes and streetlights given the number of data points.
+                                    To further explore the influence of streetlights on crimes, we next calculate the average distance between crimes and streetlight locations.
+                                    Scroll on!
                                 </p>
                             </div>
                         </div>
@@ -203,9 +203,9 @@
                             research cited above, we predicted that crimes against persons would show greater average
                             distances from streetlights than crimes against property. Our analysis reveals a more complicated
                             pattern, as can be seen in the visualization below. The most violent crime type – those resulting
-                            in injury or death – does have the highest average distance from a streetlight (34ft). However,
+                            in injury or death – does have the highest average distance from a streetlight (34 feet). However,
                             not all crimes against persons show this pattern. Assaults are in fact closer on average to
-                            the nearest streetlight (31ft) than are thefts (32ft). This suggests that streetlights may have
+                            the nearest streetlight (31 feet) than are thefts (32 feet). This suggests that streetlights may have
                             a deterring effect on the most violent of crimes, but are not as effective at crime prevention
                             as one might hope.</p>
                     
@@ -228,8 +228,8 @@
                             violent crime, it doesn't get to the root of the issue. If cities like Boston truly want to reduce their crime rates,
                             they should focus on socioeconomic initiatives and crime prevention methods, like increasing the minimum wage and tightening gun control laws.
                             There are other variables at play in geographical crime trends besides streetlight density,
-                            and as the Houston study suggests, the context of an area may be more important than the physical lights
-                            themselves.<a href="https://kinder.rice.edu/sites/default/files/documents/Kinder%20Streetlights%20and%20Crime%20report.pdf"><sup>3</sup></a>
+                            and as previous research and our analysis suggest, the context of an area may be more important than the physical lights
+                            themselves.
                         </p>
                         <br>
                         <br>

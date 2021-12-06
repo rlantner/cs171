@@ -46,13 +46,13 @@ class StackedBarVis {
             .attr('class', 'title')
             .attr("x", 150)
             .attr("y", -20)
-            .text("Crime Break Downs By Group");
+            .text("Crime Breakdowns By Group");
 //Axis Title
-        vis.svg.append('text')
+        /* vis.svg.append('text')
             .attr('class', 'x-title')
             .attr('x', 225)
             .attr('y', vis.height+40)
-            .text("Crime Group");
+            .text("Crime Group"); */
 //Axis Title
         vis.svg.append('text')
             .attr('class', 'y-title')

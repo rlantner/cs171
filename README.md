@@ -19,7 +19,7 @@ Colab notebook: https://colab.research.google.com/drive/1NzvgTLoja9-GjMWFR8t2N0h
 
 Python script: https://drive.google.com/file/d/1qQvLzxEDXp_9fh5fB_Bb-HQnk6pGlKB3/view?usp=sharing
 
-Outside of our folder structure we have our screencast video and our pdf of our final process book.
+Outside of our folder structure we have our screencast video, the pdf of our final process book, and a Tableau workbook we used to explore the data.
 
 Part 1: A analysis of Boston crime statistics, with the ability to filter but day of the week, month of the year, and shooting instances.
 

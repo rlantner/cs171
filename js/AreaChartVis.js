@@ -33,7 +33,7 @@ class AreaChartVis{
 
 
         // Scales and axes
-        vis.x = d3.scaleLinear()
+        vis.x = d3.scaleTime()
             .range([0, vis.width]);
 
         vis.y = d3.scaleLinear()
@@ -45,9 +45,8 @@ class AreaChartVis{
         let tickLabels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
         vis.xAxis = d3.axisBottom()
             .scale(vis.x)
-            .tickFormat(function(d,i){
-                return tickLabels[i]
-        })
+            /*.tickFormat(function(d,i){
+                return tickLabels[i]*/
 
         vis.svg.append("g")
             .attr("class", "y-axis axis");
@@ -97,30 +96,30 @@ class AreaChartVis{
 
         vis.yearFilter =  document.getElementById('showYear').value;
         if (vis.yearFilter =="all"){
-            vis.displayData = vis.data.filter(x=> (x.YEAR <= 2018) && (x.YEAR >2015));
+            vis.preparedData = vis.data.filter(x=> (x.YEAR <= 2018) && (x.YEAR >2015));
         } else{
-            vis.displayData = vis.data.filter(x=> x.YEAR==vis.yearFilter)
+            vis.preparedData = vis.data.filter(x=> x.YEAR==vis.yearFilter)
         }
 
         vis.dayFilter =  document.getElementById('showDay').value;
         if(vis.dayFilter =='all'){
             console.log("all")
-            vis.displayData = vis.displayData
+            vis.preparedData= vis.preparedData
         } else{
             console.log('made it')
-            vis.displayData = vis.displayData.filter(x=>x.DAY_OF_WEEK == vis.dayFilter)
+            vis.preparedData = vis.preparedData.filter(x=>x.DAY_OF_WEEK == vis.dayFilter)
         }
 
         //filter by shootings
         if (document.getElementById('showShootings').checked) {
             //console.log('I am checked')
-            vis.displayData = vis.displayData.filter(x => x.SHOOTING ==1)
+            vis.preparedData = vis.preparedData.filter(x => x.SHOOTING ==1)
         } else{
-            vis.displayData = vis.displayData
+            vis.preparedData = vis.preparedData
         }
 
-        let dataByDate = d3.group(vis.displayData)
-        let countDataByDate = d3.rollup(vis.displayData, leaves=>leaves.length, d=>d.MONTH)
+        let dataByDate = d3.group(vis.preparedData)
+        let countDataByDate = d3.rollup(vis.preparedData, leaves=>leaves.length, d=>d.areaDate)
         vis.displayData=Array.from(countDataByDate, ([key,value]) => ({key, value}))
         vis.displayData.sort((a,b) => a.key-b.key)
         console.log(vis.displayData)
@@ -139,9 +138,10 @@ class AreaChartVis{
         let vis = this;
 
         // Update domain
-       vis.x.domain(d3.extent(vis.displayData, function (d) {
+       /*vis.x.domain(d3.extent(vis.displayData, function (d) {
             return d.key;
-        }));
+        }));*/
+        vis.x.domain(d3.extent(vis.preparedData.map(x=>x.areaDate)))
 
         vis.y.domain([0, d3.max(vis.displayData, function (d) {
             return d.value;

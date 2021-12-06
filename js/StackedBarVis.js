@@ -350,8 +350,8 @@ class StackedBarVis {
         let startDate = brushRegion[0]
         let endDate = brushRegion[1]
         vis.displayData = vis.data.filter(item => {
-            if (item.MONTH >= startDate && item.MONTH<=endDate){
-                return item.MONTH
+            if (item.areaDate >= startDate && item.areaDate<=endDate){
+                return item.areaDate
             }});
 
         //console.log(vis.displayData)

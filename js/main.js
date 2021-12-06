@@ -4,7 +4,7 @@ let crimeMapZoom;
 let stackedBars;
 let areaChart;
 
-let parseTime = d3.timeParse('%Y')
+let parseTime = d3.timeParse('%m/%Y')
 let lights = 0;
 
 // Light toggle function - style changes
@@ -44,7 +44,7 @@ let promises = [
         data.MONTH = +data.MONTH;
         data.SHOOTING = +data.SHOOTING;
         data.OFFENSE_CODE = +data.OFFENSE_CODE;
-        data.YEAR1 = parseTime(data.YEAR);
+        data.areaDate = parseTime(data.MONTH+'/'+data.YEAR);
         return data
     }),
     d3.csv("data/sun-position.csv", data => {

@@ -1,7 +1,6 @@
 @charset "UTF-8";
 
 /* our custom D3 styles */
-
 .colorLegendText, .sizeLegendText, .xLabel, .yLabel {
   font-size: 10pt;
   fill: gray;
@@ -11342,6 +11341,13 @@ header {
 }
 
 #part3 {
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+}
+
+#part4 {
+  background-image: url('images/end.png');
   background-repeat: no-repeat;
   background-position: center top;
   background-size: cover;

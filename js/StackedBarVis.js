@@ -2,16 +2,16 @@ class StackedBarVis {
     constructor(_parentElement, _data) {
         this.parentElement = _parentElement;
         this.data = _data;
-        this.filteredData = [];
+        this.displayData = this.data;
         this.initVis();
     }
 
     initVis() {
         let vis = this
-        vis.margin = { top: 20, right: 0, bottom: 200, left: 140 };
+        vis.margin = { top: 50, right: 0, bottom: 200, left: 140 };
 
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right,
-            vis.height = 1000 - vis.margin.top - vis.margin.bottom;
+            vis.height = 600 - vis.margin.top - vis.margin.bottom;
 
         // SVG drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -41,12 +41,25 @@ class StackedBarVis {
         vis.svg.append("g")
             .attr("class", "y-axis axis");
 
-// Axis title
-       /* vis.svg.append("text")
-            .attr("x", -50)
-            .attr("y", -8)
-            .text("Crime Group");*/
-
+// Chart title
+       vis.svg.append("text")
+            .attr('class', 'title')
+            .attr("x", 150)
+            .attr("y", -20)
+            .text("Crime Break Downs By Group");
+//Axis Title
+        vis.svg.append('text')
+            .attr('class', 'x-title')
+            .attr('x', 225)
+            .attr('y', vis.height+40)
+            .text("Crime Group");
+//Axis Title
+        vis.svg.append('text')
+            .attr('class', 'y-title')
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('transform', 'rotate(-90) translate(-250, -55)')
+            .text('Count of Crimes')
 
         vis.tooltip = d3.select("body").append('div')
             .attr('class', "tooltip")
@@ -57,23 +70,23 @@ class StackedBarVis {
     }
     wrangleData(){
         let vis = this;
-        vis.shootings =  document.getElementById('showShootings').value;
-        vis.monthFilter =  document.getElementById('showMonth').value;
+        vis.yearFilter =  document.getElementById('showYear').value;
         vis.dayFilter =  document.getElementById('showDay').value;
+
         //filter by shootings
-        if (vis.shootings ==1) {
-          vis.preparedData = vis.data.filter(x => x.SHOOTING ==1)
+        if (document.getElementById('showShootings').checked) {
+            //console.log('I am checked')
+            vis.preparedData = vis.displayData.filter(x => x.SHOOTING ==1)
         } else{
-            vis.preparedData = vis.data
+            vis.preparedData = vis.displayData
         }
 
-        //filter by month
-        if(vis.monthFilter =='all'){
+        //filter by Year
+        if(vis.yearFilter =='all'){
             vis.preparedData = vis.preparedData
         } else{
-            vis.preparedData = vis.preparedData.filter(x => x.MONTH == vis.monthFilter)
+            vis.preparedData = vis.preparedData.filter(x => x.YEAR == vis.yearFilter)
         }
-
         //filter by day of week
         if(vis.dayFilter =='all'){
             vis.preparedData = vis.preparedData
@@ -81,7 +94,7 @@ class StackedBarVis {
             vis.preparedData = vis.preparedData.filter(x => x.DAY_OF_WEEK == vis.dayFilter)
         }
 
-
+        //console.log(vis.preparedData)
         vis.filteredData=[];
         let crimeByCat = d3.group(vis.preparedData, d=>d['Crime Category'])
         let crimeCatObj = Array.from(crimeByCat,([key,value]) => ({key, value}))
@@ -207,7 +220,7 @@ class StackedBarVis {
 
         }
         )
-
+        vis.filteredData.sort((a, b) => a.group.localeCompare(b.group)) //inspo https://stackoverflow.com/questions/6712034/sort-array-by-firstname-alphabetically-in-javascript
         console.log(vis.filteredData)
 
 
@@ -218,203 +231,98 @@ class StackedBarVis {
 
         let vis = this;
 
-        vis.x.domain(['assault', 'harassment', 'fraud', 'injury/homicide', 'theft', 'kids'])
+        d3.selectAll('g.bar').remove(); //clears bars so that only desired new ones will be drawn
 
+        //set x domain
+        vis.x.domain(vis.filteredData.map(x=>x.group))
+
+        //set y domain
         let crimeTotals = vis.filteredData.map(x=>x.total)
         vis.y.domain([0, d3.max(crimeTotals)])
 
-        let stacks = vis.svg.selectAll('.barGroups')
-            .data(vis.filteredData)
+        //draw the bars
+        let bars = vis.svg.selectAll('g.bar').data(vis.filteredData, d=>d.group)
 
-         let stackGroups = stacks.enter()
+        //creates a bar for each crime type
+        let barsEnter = bars.enter()
             .append('g')
-            .merge(stacks)
-            .attr('class', 'barGroups')
+            .attr('class', 'bar')
+            .attr('class', d=>  `bar bar-${d.group}`)
 
-        //draw base level bar in each group
+        barsEnter
+            .merge(bars)
+            //.transition(d3.easeElastic)
+            .attr('transform', d=> `translate(${vis.x(d.group)},0)`); //move bars to align wuth axis
 
-        vis.barOne = stackGroups.append('rect')
-            .attr('class', 'bar barOne')
-            .attr('id', 'crime1')
-            .attr('x', d=>vis.x(d.group))
-            .attr('y', d=>vis.y(d.crime1_count))
-            .attr('height', d => vis.height - vis.y(d.crime1_count))
-            .attr('width', vis.x.bandwidth())
-            .attr('fill', 'black')
-            .attr('stroke', 'white')
+        vis.svg.selectAll('g.bar').data(vis.filteredData, d=>d.group).exit().remove();
+        //bars.exit().transition().remove();
 
+        let rects =
+            barsEnter
+                .selectAll('rect.crime')
+                .data(function(d) {
+                    let codesAndCounts = [];
+                    let lastCount = 0;
+                    for (let i = 1; i <= 14; i++) {
+                        codesAndCounts.push({
+                            code: d[`crime${i}_code`],
+                            count: d[`crime${i}_count`],
+                            lastCount
+                        });
+                        lastCount += d[`crime${i}_count`];
+                    }
+                    //console.log(codesAndCounts)
+                    return codesAndCounts;
+                });
+        rects.exit().remove();
 
-        //draw second bars
-        vis.barTwo = stackGroups.append('rect')
-            .attr('class', 'bar barTwo')
-            .attr('id', 'crime2')
-            .attr('x', d=> vis.x(d.group))
-            .attr('y', d=> vis.y(d.crime1_count+ d.crime2_count))
-            .attr('height', d => vis.height - vis.y(d.crime2_count))
-            .attr('width', vis.x.bandwidth())
-            .attr('fill', 'black')
-            .attr('stroke', 'white')
+       rects.enter()
+            .append("rect")
+            .attr("class", "crime")
+            .attr("class", (d, i) => `crime crime${i}`)
+            .attr("fill", "black")
+            .attr("stroke", "deepskyblue")
+            .attr('stroke-width', 2)
 
-        //draw third bars
-        vis.barThree = stackGroups.append('rect')
-            .attr('class', 'bar barThree')
-            .attr('id', 'crime3')
-            .attr('x', d=> vis.x(d.group))
-            .attr('y', d=> vis.y(d.crime1_count+d.crime2_count+ d.crime3_count))
-            .attr('height', d => vis.height - vis.y(d.crime3_count))
-            .attr('width', vis.x.bandwidth())
-            .attr('fill', 'black')
-            .attr('stroke', 'white')
+            .merge(rects)
+           //.transition(d3.easeElastic)
+            .attr("y", d => {
+                //console.log(d)
+                //console.log(d.count+d.lastCount)
+                return vis.y(d.count +d.lastCount)
+            })
+            .attr("width",vis.x.bandwidth())
+            .attr("height", d => vis.height - vis.y(d.count));
 
-        //draw fourth bars
-        vis.barFour = stackGroups.append('rect')
-            .attr('class', 'bar barFour')
-            .attr('id', 'crime4')
-            .attr('x', d=> vis.x(d.group))
-            .attr('y', d=> vis.y(d.crime1_count+d.crime2_count+ d.crime3_count+d.crime4_count))
-            .attr('height', d => vis.height - vis.y(d.crime4_count))
-            .attr('width', vis.x.bandwidth())
-            .attr('fill', 'black')
-            .attr('stroke', 'white')
-
-        //draw fifth bars
-        vis.barFive = stackGroups.append('rect')
-            .attr('class', 'bar barFive')
-            .attr('id', 'crime5')
-            .attr('x', d=> vis.x(d.group))
-            .attr('y', d=> vis.y(d.crime1_count+d.crime2_count+ d.crime3_count+d.crime4_count+d.crime5_count))
-            .attr('height', d => vis.height - vis.y(d.crime5_count))
-            .attr('width', vis.x.bandwidth())
-            .attr('fill', 'black')
-            .attr('stroke', 'white')
-
-        //draw sixth bars
-        vis.barSix = stackGroups.append('rect')
-            .attr('class', 'bar barSix')
-            .attr('id', 'crime5')
-            .attr('x', d=> vis.x(d.group))
-            .attr('y', d=> vis.y(d.crime1_count+d.crime2_count+ d.crime3_count+d.crime4_count+d.crime5_count+d.crime6_count))
-            .attr('height', d => vis.height - vis.y(d.crime6_count))
-            .attr('width', vis.x.bandwidth())
-            .attr('fill', 'black')
-            .attr('stroke', 'white')
-
-        //draw seventh bars
-        vis.barSeven = stackGroups.append('rect')
-            .attr('class', 'bar barSeven')
-            .attr('id', 'crime7')
-            .attr('x', d=> vis.x(d.group))
-            .attr('y', d=> vis.y(d.crime1_count+d.crime2_count+ d.crime3_count+d.crime4_count+d.crime5_count+d.crime6_count+d.crime7_count))
-            .attr('height', d => vis.height - vis.y(d.crime7_count))
-            .attr('width', vis.x.bandwidth())
-            .attr('fill', 'black')
-            .attr('stroke', 'white')
-
-        //draw eigth bars
-        vis.barEight = stackGroups.append('rect')
-            .attr('class', 'bar barEight')
-            .attr('id', 'crime8')
-            .attr('x', d=> vis.x(d.group))
-            .attr('y', d=> vis.y(d.crime1_count+d.crime2_count+ d.crime3_count+d.crime4_count+d.crime5_count+d.crime6_count+d.crime7_count+d.crime8_count))
-            .attr('height', d => vis.height - vis.y(d.crime8_count))
-            .attr('width', vis.x.bandwidth())
-            .attr('fill', 'black')
-            .attr('stroke', 'white')
-
-        //draw ninth bars
-        vis.barNine = stackGroups.append('rect')
-            .attr('class', 'bar barNine')
-            .attr('id', 'crime9')
-            .attr('x', d=> vis.x(d.group))
-            .attr('y', d=> vis.y(d.crime1_count+d.crime2_count+ d.crime3_count+d.crime4_count+d.crime5_count+d.crime6_count+d.crime7_count+d.crime8_count+d.crime9_count))
-            .attr('height', d => vis.height - vis.y(d.crime9_count))
-            .attr('width', vis.x.bandwidth())
-            .attr('fill', 'black')
-            .attr('stroke', 'white')
-
-        //draw tenth bars
-        vis.barTen = stackGroups.append('rect')
-            .attr('class', 'bar barTen')
-            .attr('id', 'crime10')
-            .attr('x', d=> vis.x(d.group))
-            .attr('y', d=> vis.y(d.crime1_count+d.crime2_count+ d.crime3_count+d.crime4_count+d.crime5_count+d.crime6_count+d.crime7_count+d.crime8_count+d.crime9_count+d.crime10_count))
-            .attr('height', d => vis.height - vis.y(d.crime10_count))
-            .attr('width', vis.x.bandwidth())
-            .attr('fill', 'black')
-            .attr('stroke', 'white')
-
-        //draw eleventh bars
-        vis.bar11 = stackGroups.append('rect')
-            .attr('class', 'bar bar11')
-            .attr('id', 'crime11')
-            .attr('x', d=> vis.x(d.group))
-            .attr('y', d=> vis.y(d.crime1_count+d.crime2_count+ d.crime3_count+d.crime4_count+d.crime5_count+d.crime6_count+d.crime7_count+d.crime8_count+d.crime9_count+d.crime10_count+d.crime11_count))
-            .attr('height', d => vis.height - vis.y(d.crime11_count))
-            .attr('width', vis.x.bandwidth())
-            .attr('fill', 'black')
-            .attr('stroke', 'white')
-
-        //draw twelfth bars
-        vis.bar12 = stackGroups.append('rect')
-            .attr('class', 'bar bar12')
-            .attr('id', 'crime12')
-            .attr('x', d=> vis.x(d.group))
-            .attr('y', d=> vis.y(d.crime1_count+d.crime2_count+ d.crime3_count+d.crime4_count+d.crime5_count+d.crime6_count+d.crime7_count+d.crime8_count+d.crime9_count+d.crime10_count+d.crime11_count+d.crime12_count))
-            .attr('height', d => vis.height - vis.y(d.crime12_count))
-            .attr('width', vis.x.bandwidth())
-            .attr('fill', 'black')
-            .attr('stroke', 'white')
-
-        //draw thirteenth bars
-        vis.bar13 = stackGroups.append('rect')
-            .attr('class', 'bar bar13')
-            .attr('id', 'crime13')
-            .attr('x', d=> vis.x(d.group))
-            .attr('y', d=> vis.y(d.crime1_count+d.crime2_count+ d.crime3_count+d.crime4_count+d.crime5_count+d.crime6_count+d.crime7_count+d.crime8_count+d.crime9_count+d.crime10_count+d.crime11_count+d.crime12_count+d.crime13_count))
-            .attr('height', d => vis.height - vis.y(d.crime13_count))
-            .attr('width', vis.x.bandwidth())
-            .attr('fill', 'black')
-            .attr('stroke', 'white')
-
-        //draw fourteenth bars
-        vis.bar14 = stackGroups.append('rect')
-            .attr('class', 'bar bar14')
-            .attr('id', 'crime14')
-            .attr('x', d=> vis.x(d.group))
-            .attr('y', d=> vis.y(d.crime1_count+d.crime2_count+ d.crime3_count+d.crime4_count+d.crime5_count+d.crime6_count+d.crime7_count+d.crime8_count+d.crime9_count+d.crime10_count+d.crime11_count+d.crime12_count+d.crime13_count+d.crime14_count))
-            .attr('height', d => vis.height - vis.y(d.crime14_count))
-            .attr('width', vis.x.bandwidth())
-            .attr('fill', 'black')
-            .attr('stroke', 'white')
-
-
-        stackGroups.exit().remove()
+       //call axes
         vis.svg.select(".y-axis")
+            .transition()
             .call(vis.yAxis)
 
         vis.svg.select(".x-axis")
+            .transition()
             .call(vis.xAxis)
 
         //tool tip actions
-        d3.selectAll('.bar').on("mouseover", function (event, d) {
+        d3.selectAll('.crime').on("mouseover", function (event, d) {
+            //console.log(d)
             vis.data.forEach(crime => {
-                if (crime.OFFENSE_CODE === d[this.id+"_code"]) {
+                if (crime.OFFENSE_CODE === d.code) {
                    vis.crimeLabel = crime.OFFENSE_DESCRIPTION
                 }})
 
-           d3.select(this)
-                .attr('fill', '#FDB750')
+          d3.select(this)
+                .attr('fill', 'orange')
             vis.tooltip
                 .style("opacity", 1)
                 .style("left", event.pageX + 20 + "px")
                 .style("top", event.pageY + "px")
                 .html(`
-                    <div style="border: thin solid grey; border-radius: 5px; background: lightgrey; padding: 20px">
-                        <h3> Crime Name: ${vis.crimeLabel}</h3>
-                        <h4> Crime Code: ${d[this.id+'_code']}<h3>
-                        <h4> Crime Count: ${d[this.id+'_count']}<h4_
-                    </div>`
-        );
+                         <div style="border: thin solid grey; background: white;">
+                             <p> <b>Crime Name:</b> ${vis.crimeLabel}
+                             <br> <b>Crime Code:</b> ${d.code}
+                             <br> <b>Crime Count:</b> ${d.count}</p>
+                         </div>`);
 
 
        })
@@ -429,5 +337,27 @@ class StackedBarVis {
                     .html(``);
             })
 
+    }
+    selectionChanged(brushRegion) {
+        let vis = this;
+
+        // Filter data accordingly without changing the original data
+
+
+        // * TO-DO *
+        // Filter data accordingly without changing the original data
+        // * TO-DO *
+        let startDate = brushRegion[0]
+        let endDate = brushRegion[1]
+        vis.displayData = vis.data.filter(item => {
+            if (item.MONTH >= startDate && item.MONTH<=endDate){
+                return item.MONTH
+            }});
+
+        //console.log(vis.displayData)
+        //console.log(brushRegion)
+
+        // Update the visualization
+        vis.wrangleData();
     }
 }

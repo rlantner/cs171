@@ -126,56 +126,6 @@ class LightDist {
             d.HOUR <6 || d.HOUR> 18
         ))
 
-
-        /*//filter into shooting vs not shooting
-        vis.shootFilt = Array.from(vis.filt.filter(d => d.SHOOTING === 1))
-        vis.notShootFilt = Array.from(vis.filt.filter(d => d.SHOOTING ===0))
-        console.log(vis.shootFilt)
-        console.log(vis.notShootFilt)
-
-        //calculate average distance for shooting and non-shooting crimes
-        let shoot = 0
-        for (let i = 0; i<vis.shootFilt.length; i++) {
-            shoot += vis.shootFilt[i].dist;
-        }
-        let avShoot = (shoot/vis.shootFilt.length) * 3280.839895 //converted to feet for viz
-        console.log("Average dist for shootings: " + avShoot)
-
-        let notShoot = 0
-        for (let i = 0; i<vis.notShootFilt.length; i++) {
-            notShoot += vis.notShootFilt[i].dist;
-        }
-        let avNotShoot = (notShoot/vis.notShootFilt.length) * 3280.839895 //converted to feet for viz
-        console.log("Average dist for non-shootings: " + avNotShoot)*/
-
-        /*//filter into violent vs other crimes
-        vis.violent = Array.from(vis.filt.filter(d =>
-            d["Crime Category"] === "assault" || d["Crime Category"] === "injury/homicide"))
-        vis.notViolent = Array.from(vis.filt.filter(d =>
-            d["Crime Category"] !== "assault" && d["Crime Category"] !== "injury/homicide"))
-        console.log("Violent crimes:")
-        console.log(vis.violent)
-        console.log("Non-violent crimes:")
-        console.log(vis.notViolent)
-
-        //calculate average distance for shooting and non-shooting crimes
-        let violent = 0
-        for (let i = 0; i<vis.violent.length; i++) {
-            violent += vis.violent[i].dist;
-        }
-        let avViolent = (violent/vis.violent.length) * 3280.839895 //converted to feet for viz
-        //console.log("Average dist for violent: " + avViolent)
-
-        let notViolent = 0
-        for (let i = 0; i<vis.notViolent.length; i++) {
-            notViolent += vis.notViolent[i].dist;
-        }
-        let avNotViolent = (notViolent/vis.notViolent.length) * 3280.839895 //converted to feet for viz
-        //console.log("Average dist for non-violent: " + avNotViolent)
-
-        vis.crimeArray = [avViolent, avNotViolent]
-        console.log("Crime Distances: " + vis.crimeArray)*/
-
         //filter into violent vs other crimes
         vis.assault = Array.from(vis.filt.filter(d =>
             d["Crime Category"] === "assault"))
@@ -186,14 +136,12 @@ class LightDist {
         vis.theft = Array.from(vis.filt.filter(d =>
             d["Crime Category"] === "theft"))
 
-        console.log("assault:")
+       /* console.log("assault:")
         console.log(vis.assault)
         console.log("injury:")
         console.log(vis.injury)
-       /* console.log("fraud:")
-        console.log(vis.fraud)*/
         console.log("theft:")
-        console.log(vis.theft)
+        console.log(vis.theft)*/
 
         //calculate average distance for each crime type
         //assault
@@ -212,14 +160,6 @@ class LightDist {
         let avInjury = (injury/vis.injury.length) * 3280.839895 //converted to feet for viz
         console.log("Average dist for injury: " + avInjury)
 
-        /*//fraud
-        let fraud = 0
-        for (let i = 0; i<vis.fraud.length; i++) {
-            fraud += vis.fraud[i].dist;
-        }
-        let avFraud = (fraud/vis.fraud.length) * 3280.839895 //converted to feet for viz
-        console.log("Average dist for fraud: " + avFraud)*/
-
         //theft
         let theft = 0
         for (let i = 0; i<vis.theft.length; i++) {
@@ -229,7 +169,7 @@ class LightDist {
         console.log("Average dist for theft: " + avTheft)
 
         vis.crimeArray = [avAssault, avInjury, avTheft]
-        console.log("Crime Distances: " + vis.crimeArray)
+        //console.log("Crime Distances: " + vis.crimeArray)
         vis.updateVis();
     }
 
@@ -254,31 +194,6 @@ class LightDist {
                 })
             .attr("stroke-width", 2)
             .attr("stroke-dasharray", "3 2")
-
-        //tooltip
-        /*crimeCircles.enter()
-            .append("circle")
-            .attr("class", "crimeCircle")
-            .on("mouseover", (event, d, i) => {
-                console.log("mouseover")
-                //tooltip
-                vis.tooltip
-                    .style("opacity", 1)
-                    .style("left", event.pageX + 20 + "px")
-                    .style("top", event.pageY + "px")
-                    .html(`
-                    <div style = "border: thin solid grey; background: white;">
-                        <p> <b> Crime Type: </b> ${vis.labels[i]}
-                        <br> <b> Average Distance: </b> ${d} </p>
-                    </div>`);})
-            .on("mouseout", (event, d) => {
-                vis.tooltip
-                    .style("opacity", 0)
-                    .style("left", 0)
-                    .style("top", 0)
-                    .html(``);
-            })
-            .merge(crimeCircles)*/
 
         //update y axis domain
         vis.y.domain([0, 40]);
